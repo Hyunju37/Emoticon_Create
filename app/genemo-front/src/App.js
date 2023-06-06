@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import logoImg from "./genemo_logo.png";
 
-function App() {
+function Header() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+    <header>
+      <div className="logo">
+        <img src={logoImg} alt="genego logo" className="logoimg" />
+        <a className="logottl" href="index.html">
+          Ge-Nemo
         </a>
-      </header>
-    </div>
+      </div>
+      <ul className="nav-bar">
+        <li>
+          <a href="concept.html">execute</a>
+        </li>
+        <li>
+          <a href="contribution.html">contribution</a>
+        </li>
+        <li>
+          <a href="about.html">about</a>
+        </li>
+      </ul>
+    </header>
   );
 }
 
-export default App;
+function Main() {
+  return <main></main>;
+}
+
+export { Header, Main };

@@ -1,38 +1,67 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap");
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 16px 32px;
+  background-color: #ffffa3;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.logo {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+img.logoimg {
+  padding-top: 3px;
+  width: 84px;
+  height: 42px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+a.logottl {
+  font-family: "Ubuntu", sans-serif;
+  text-decoration: None;
+  color: black;
+  padding: 5px 28px;
+  font-size: 36px;
+}
+
+.nav-bar {
+  position: relative;
+  right: 90px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-bar li {
+  list-style: None;
+}
+
+.nav-bar > li > a {
+  font-family: "Ubuntu", sans-serif;
+  text-decoration: None;
+  color: black;
+  padding: 5px 30px;
+  font-size: 24px;
+  display: inline;
+}
+
+main {
+  position: static;
+  margin-top: 93px;
+  padding: 0px 32px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  height: 1000px;
+  width: 100%;
+  background-color: #ffffe0;
 }
