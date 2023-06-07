@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap");
 header {
   position: fixed;
   top: 0;
@@ -12,6 +12,8 @@ header {
   width: 100%;
   padding: 16px 32px;
   background-color: #ffffa3;
+
+  z-index: -100;
 }
 
 .logo {
@@ -57,11 +59,132 @@ a.logottl {
 
 main {
   position: static;
-  margin-top: 93px;
-  padding: 0px 32px;
+  margin-top: 92px;
+  padding: 0px 200px;
+
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+
   height: 1000px;
-  width: 100%;
+  width: 80%;
   background-color: #ffffe0;
+}
+
+main div {
+  width: 100%;
+  position: relative;
+  display: block;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 66px;
+  font-size: 56px;
+}
+
+h4 {
+  font-family: "Ubuntu", sans-serif;
+  text-align: center;
+  margin: 10px 0px;
+  font-family: "IBM Plex Sans KR", sans-serif;
+  font-size: 23px;
+}
+
+.concept-label {
+  background-color: #f5600c;
+  color: white;
+  padding: 13px 12px;
+  border-radius: 6px;
+  font-size: 28px;
+  margin-right: 10px;
+}
+
+.description {
+  padding: 3px 8px;
+  height: 47px;
+  width: 1300px;
+  font-size: 28px;
+  font-family: "IBM Plex Sans KR", sans-serif;
+}
+
+form {
+  margin-top: 100px;
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  display: block;
+}
+
+.btnArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bigBtn {
+  background-color: #ffe761;
+  border: none;
+  display: block;
+  text-align: center;
+  margin-top: 76px;
+  padding: 50px 2px;
+  width: 660px;
+  font-size: 40px;
+  border-radius: 20px;
+  font-family: "IBM Plex Sans KR", sans-serif;
+}
+
+.smallBtn {
+  background-color: #ffe761;
+  border: none;
+  display: block;
+  text-align: center;
+  margin-top: 76px;
+  margin-right: 20px;
+  padding: 20px 2px;
+  width: 200px;
+  font-size: 20px;
+  border-radius: 2px;
+}
+
+.previous {
+  position: absolute;
+  left: -53px;
+  top: 24px;
+  display: block;
+  margin-top: 60px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.foremotions {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+}
+
+.emotion {
+  display: inline-block;
+}
+
+.emotion-label {
+  display: inline-block;
+  background-color: #f68c3e;
+  font-size: 20px;
+  width: 40px;
+  padding: 3px 15px;
+  margin-top: 20px;
+}
+
+.jang {
+  margin-top: 20px;
+  margin-left: 3px;
+  width: 50px;
+  height: 27px;
 }
