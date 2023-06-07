@@ -1,10 +1,9 @@
 from flask import Flask, render_template,request,redirect,url_for
 import sys
-import database
 from form import ConceptForm,EmotionCount,EmotionDescribe
 
-con=ConceptForm()
-app=Flask(__name__)
+
+app = Flask(__name__)
 
 @app.route("/")
 def hello():
