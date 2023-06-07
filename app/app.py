@@ -1,17 +1,13 @@
 from flask import Flask, render_template,request,redirect,url_for
 import sys
-from flask import Flask, render_template, redirect, url_for
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, IntegerField
-from wtforms.validators import DataRequired, NumberRange, Length
 from form import ConceptForm,EmotionCount,EmotionDescribe
 # con=ConceptForm()
 # con1=EmotionCount()
 # con2=EmotionDescribe()
 
 
+con=ConceptForm()
 app=Flask(__name__)
-app.config['SECRET_KEY']='genemo'
 
 @app.route("/")
 def step1():
