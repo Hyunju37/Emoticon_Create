@@ -1,0 +1,35 @@
+<!-- emotion_form.html -->
+
+<form method="POST" action="{{ url_for('applyemotion') }}">
+    {{ form.hidden_tag() }}
+    
+    <div class="Happiness">
+      {{ form.Happiness.label }} {{ form.Happiness }}
+    </div>
+    
+    <div class="Sadness">
+      {{ form.Sadness.label }} {{ form.Sadness }}
+    </div>
+    
+    <div class="Anger">
+      {{ form.Anger.label }} {{ form.Anger }}
+    </div>
+    
+    <div class="Fear">
+      {{ form.Fear.label }} {{ form.Fear }}
+    </div>
+    
+    <div class="Surprise">
+      {{ form.Surprise.label }} {{ form.Surprise }}
+    </div>
+    
+    <div class="Disgust">
+      {{ form.Disgust.label }} {{ form.Disgust }}
+    </div>
+    
+    <div class="Neutral">
+      {{ form.Neutral.label }} {{ form.Neutral }}
+    </div>
+    
+    <button type="submit">Submit</button>
+  </form>

@@ -18,3 +18,4 @@ class EmotionCount(FlaskForm):
 
 class EmotionDescribe(FlaskForm):
     describe = StringField('Describe', validators=[DataRequired()])
+    
