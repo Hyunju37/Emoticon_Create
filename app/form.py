@@ -7,6 +7,7 @@ class ConceptForm(FlaskForm):
     concept = StringField('Concept', validators=[DataRequired()])
 
 
+
 class EmotionCount(FlaskForm):
     happiness = IntegerField('Happiness', validators=[DataRequired()])
     sadness = IntegerField('Sadness', validators=[DataRequired()])
@@ -18,4 +19,3 @@ class EmotionCount(FlaskForm):
 
 class EmotionDescribe(FlaskForm):
     describe = StringField('Describe', validators=[DataRequired()])
-    

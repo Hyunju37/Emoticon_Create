@@ -1,13 +1,15 @@
 from flask import Flask, render_template,request,redirect,url_for
 import sys
 from form import ConceptForm,EmotionCount,EmotionDescribe
+import ast
 # con=ConceptForm()
 # con1=EmotionCount()
 # con2=EmotionDescribe()
 
 
-con=ConceptForm()
+#con=ConceptForm()
 app=Flask(__name__)
+app.config["SECRET_KEY"]='genemo'
 
 @app.route("/")
 def step1():
@@ -17,7 +19,11 @@ def step1():
 def step2():
     inputconcept=ConceptForm(request.form)
     print(inputconcept)
-    # database.save(inputconcept)
+    return render_template("personalize.html")
+
+@app.route("/exregister")
+def exregister():
+    inputconcept=request.args.get('inputconcept')
     return redirect(url_for("register",inputconcept=inputconcept))
 
 # @app.route('/concept')
@@ -26,25 +32,33 @@ def step2():
 
 
 @app.route('/applyemotion', methods=['GET', 'POST'])
-def register(inputconcept):
+def register():
     emotioncount = EmotionCount(request.form)
-    inputconcept=inputconcept
-    cnt={}
-    if request.method == 'POST' and emotioncount.validates():
-        cnt["Happyness"]=EmotionCount.happiness.data
-        cnt["Sadness"]=EmotionCount.happiness.data
-        cnt["Fear"]=EmotionCount.happiness.data
-        cnt["Anger"]=EmotionCount.happiness.data
-        cnt["Neutral"]=EmotionCount.happiness.data
-        cnt["Surprise"]=EmotionCount.happiness.data
-        cnt["Disgust"]=EmotionCount.happiness.data
+    inputconcept=request.args.get('inputconcept')
+    if request.method == 'GET':
+        return render_template('count.html')
+    elif request.method == 'POST' and emotioncount.validates():
+        cnt = {
+            "Happiness": EmotionCount.happiness.data,
+            "Sadness": EmotionCount.sadness.data,
+            "Fear": EmotionCount.fear.data,
+            "Anger": EmotionCount.anger.data,
+            "Neutral": EmotionCount.neutral.data,
+            "Surprise": EmotionCount.surprise.data,
+            "Disgust": EmotionCount.disgust.data
+        }
+        return redirect(url_for('specific', cnt=cnt, inputconcept=inputconcept))
+        
     
-    
-        return redirect(url_for('specific', cnt=cnt))
     
 
+
 @app.route("/specific")
-def specific(cnt):
+def specific():
+    inputconcept=request.args.get('inputconcept')
+
+    cnt=request.args.get('cnt') 
+    cnt=ast.literal_eval(cnt) if cnt else {}
     happiness_des={}
     sadness_des={}
     fear_des={}
@@ -53,7 +67,7 @@ def specific(cnt):
     surprise_des={}
     disgust_des={}
     emotiondescribe=EmotionDescribe(request.form)
-    for i in range(cnt["Happyness"]):
+    for i in range(cnt["Happiness"]):
         happiness_text = EmotionDescribe()
         if happiness_text.validate_on_submit():
             happiness_des[f'{i+1}'] = happiness_text.describe.data
@@ -81,11 +95,11 @@ def specific(cnt):
         disgust_text = EmotionDescribe()
         if disgust_text.validate_on_submit():
             disgust_des[f'{i+1}'] = disgust_text.describe.data
-    return redirect(url_for("result"))
+    return redirect(url_for("result",cnt=cnt,inputconcept=inputconcept))
 
 @app.route("/result")
 def step3():
-    return redirect()
+    return render_template("result.html")
 
 @app.route("/Genemo")
 def Genemo():
