@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Genemo</title>
+</head>
+<body>
+    <h1>단계 1: 개념 시작</h1>
+    <form method="POST" action="{{ url_for('genemo') }}">
+        {{ form1.csrf_token }}
+        {{ form1.concept.label }} {{ form1.concept }}
+        <button type="submit">다음</button>
+    </form>
+
+    <h1>단계 2: 개인화 상태</h1>
+    <form method="POST" action="{{ url_for('genemo') }}">
+        {{ form2.csrf_token }}
+        {{ form2.status.label }} {{ form2.status }}
+        <button type="submit">다음</button>
+    </form>
+
+    <h1>단계 3: 감정 개수</h1>
+    <form method="POST" action="{{ url_for('genemo') }}">
+        {{ form3.csrf_token }}
+        {{ form3.happiness.label }} {{ form3.happiness }}
+        {{ form3.sadness.label }} {{ form3.sadness }}
+        {{ form3.anger.label }} {{ form3.anger }}
+        {{ form3.disgust.label }} {{ form3.disgust }}
+        {{ form3.neutral.label }} {{ form3.neutral }}
+        {{ form3.surprise.label }} {{ form3.surprise }}
+        {{ form3.fear.label }} {{ form3.fear }}
+        {% if form3.errors.total %}
+            <p style="color: rgb(52, 52, 52);">{{ form3.errors.total[0] }}</p>
+        {% endif %}
+        <button type="submit" onclick="validateEmotionCount()">다음</button>
+        <input type="submit" style="display: none;">
+    </form>
+
+    <h1>단계 4: 감정 설명</h1>
+    <form method="POST" action="{{ url_for('genemo') }}">
+        {{ form4.csrf_token }}
+        {{ form4.describe.label }} {{ form4.describe }}
+        <button type="submit">다음</button>
+    </form>
+
+    <h2>데이터:</h2>
+    <ul>
+        <li>개념: {{ concept }}</li>
+        <li>개인화 상태: {{ status }}</li>
+        <li>감정 개수:
+            <ul>
+                <li>기쁨: {{ happiness }}</li>
+                <li>슬픔: {{ sadness }}</li>
+                <li>분노: {{ anger }}</li>
+                <li>혐오: {{ disgust }}</li>
+                <li>중립: {{ neutral }}</li>
+                <li>놀람: {{ surprise }}</li>
+                <li>두려움: {{ fear }}</li>
+            </ul>
+        </li>
+        <li>감정 설명: {{ describe }}</li>
+    </ul>
+</body>
+</html>
