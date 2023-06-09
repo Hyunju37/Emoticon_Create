@@ -330,3 +330,8 @@ input:focus {
   display: flex;
   align-items: center;
 }
+
+.progressbar-area {
+  position: fixed;
+  z-index: 100;
+}
