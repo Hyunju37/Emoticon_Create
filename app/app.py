@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField, TextAreaField
 from wtforms.validators import InputRequired, NumberRange, ValidationError
 from chatgpt import openai
+from form import ConceptForm, PersonalizeStatus,EmotionCount,EmotionDescribe
 import os
 
 # 파일 저장 함수

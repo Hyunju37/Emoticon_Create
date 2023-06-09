@@ -1,9 +1,9 @@
-from flask import Flask, render_template, redirect, url_for, session
+from flask import Flask, render_template, redirect, url_for, session,request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField, TextAreaField
 from wtforms.validators import InputRequired, NumberRange, ValidationError
-
-
+from chatgpt import openai
+import os
 
 
 
@@ -35,7 +35,13 @@ class EmotionCount(FlaskForm):
         return True
 
 class EmotionDescribe(FlaskForm):
-    describe = TextAreaField('감정 설명', validators=[InputRequired()])
+    happiness_description = TextAreaField('기쁨 감정 설명', validators=[InputRequired()])
+    sadness_description = TextAreaField('슬픔 감정 설명', validators=[InputRequired()])
+    anger_description = TextAreaField('분노 감정 설명', validators=[InputRequired()])
+    disgust_description = TextAreaField('혐오 감정 설명', validators=[InputRequired()])
+    neutral_description = TextAreaField('중립 감정 설명', validators=[InputRequired()])
+    surprise_description = TextAreaField('놀람 감정 설명', validators=[InputRequired()])
+    fear_description = TextAreaField('두려움 감정 설명', validators=[InputRequired()])
 # from flask import Flask, render_template, redirect, url_for
 # from flask_wtf import FlaskForm
 # from wtforms import StringField, SubmitField, SelectField, IntegerField
