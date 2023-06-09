@@ -17,6 +17,7 @@ const MyProgressBar = ({ currentStep }) => {
         width: "100%",
         padding: "0px",
       }}
+      className="progressbar-area"
     >
       <ProgressBar
         percent={(currentStep - 1) * 25}
