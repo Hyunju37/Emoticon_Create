@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, session,request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField, TextAreaField
 from wtforms.validators import InputRequired, NumberRange, ValidationError
-
+from chatgpt import openai
 import os
 
 # 파일 저장 함수
