@@ -1,38 +1,332 @@
-.App {
-  text-align: center;
-}
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap");
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 8px 25px;
+  background-color: #ffffa3;
+
+  z-index: 100;
+}
+
+.logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+img.logoimg {
+  padding-top: 3px;
+  width: 66px;
+  height: 33px;
+}
+
+a.logottl {
+  font-family: "Ubuntu", sans-serif;
+  text-decoration: None;
+  color: black;
+  padding: 5px 24px;
+  font-size: 30px;
+}
+
+.nav-bar {
+  position: relative;
+  right: 40px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-bar li {
+  list-style: None;
+}
+
+.nav-bar > li > a {
+  font-family: "Ubuntu", sans-serif;
+  text-decoration: None;
+  color: black;
+  padding: 5px 15px;
+  font-size: 20px;
+  display: inline;
+}
+
+main {
+  position: static;
+  margin-top: 92px;
+  padding: 0% 8%;
+
+  display: flex;
+  justify-content: center;
+}
+
+main div {
+  width: 100%;
+  position: relative;
+  display: block;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 48px;
+  margin-bottom: 25px;
+}
+
+h4 {
+  font-family: "Ubuntu", sans-serif;
+  text-align: center;
+  margin: 10px 0px;
+  font-family: "IBM Plex Sans KR", sans-serif;
+  font-size: 18px;
+}
+
+.concept-label {
+  background-color: #f5600c;
+  color: white;
+  padding: 12px 12px;
+  border-radius: 6px;
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.description {
+  padding: 3px 8px;
+  height: 47px;
+  width: 1300px;
+  font-size: 18px;
+  font-family: "IBM Plex Sans KR", sans-serif;
+}
+
+form {
+  margin-top: 70px;
+  display: block;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+button {
+  display: block;
+}
+
+.btnArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnArea3 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btnArea2 {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+
+.middleBtn{
+  background-color: #ffe761;
+  border: none;
+  display: block;
+  text-align: center;
+  margin-top: 76px;
+  padding: 24px 2px;
+  width: 300px;
+  font-size: 28px;
+  border-radius: 20px;
+  font-family: "IBM Plex Sans KR", sans-serif;
+
+  transition: transform 0.3s ease;
+}
+
+.middleBtn:hover,
+.middleBtn:focus {
+  transform: translateY(-0.25em);
+  cursor: pointer;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.bigBtn {
+  background-color: #ffe761;
+  border: none;
+  display: block;
+  text-align: center;
+  margin-top: 38px;
+  padding: 50px 2px;
+  width: 580px;
+  font-size: 28px;
+  border-radius: 20px;
+  font-family: "IBM Plex Sans KR", sans-serif;
+
+  transition: transform 0.3s ease;
+}
+
+.bigBtn:hover,
+.bigBtn:focus {
+  transform: translateY(-0.25em);
+  cursor: pointer;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.smallBtn {
+  background-color: #ffe761;
+  border: none;
+  display: block;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 18px;
+
+  padding: 20px 2px;
+  width: 200px;
+  font-size: 18px;
+  border-radius: 5px;
+
+  transition: transform 0.3s ease;
+}
+
+.smallBtn:hover,
+.smallBtn:focus {
+  transform: translateY(-0.25em);
+  cursor: pointer;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.previous {
+  position: absolute;
+  left: -53px;
+  top: -23px;
+  display: block;
+  margin-top: 60px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.emotion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.emotion-label {
+  text-align: center;
+  background-color: #f68c3e;
+  font-size: 15px;
+  width: 36px;
+  padding: 6px 40px;
+  margin-right: 40px;
+  margin-left: 40px;
+}
+
+.jangs {
+  display: flex;
+  align-items: center;
+}
+
+.jang {
+  width: 50px;
+  height: 27px;
+}
+
+.description2 {
+  padding: 3px 8px;
+  height: 47px;
+  width: 1500px;
+  font-size: 23px;
+  font-family: "IBM Plex Sans KR", sans-serif;
+}
+
+.concept-label2 {
+  background-color: #ffc694;
   color: white;
+  padding: 4px 6px;
+  border-radius: 2px;
+  font-size: 18px;
+  margin-right: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.desc-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.result-title {
+  margin-top: 10px;
+}
+
+.result-title h4 {
+  font-size: 35px;
+}
+
+.img-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-box {
+  background-color: #fdffa3;
+  width: 360px;
+  height: 360px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.triangle-left {
+  width: 0;
+  height: 0;
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  border-right: 60px solid #fcd762;
+  margin-right: 60px;
+  cursor:pointer;
+}
+
+.triangle-right {
+  width: 0;
+  height: 0;
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  border-left: 60px solid #fcd762;
+  margin-left: 60px;
+  cursor:pointer;
+}
+
+input {
+  width: 100%;
+  border-style: none;
+  border: 1px solid #ffc694;
+}
+
+input:focus {
+  border: 1px solid  #ffe761;
+}
+
+.concept-input {
+  display: flex;
+  align-items: center;
 }
