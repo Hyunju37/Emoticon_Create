@@ -1,19 +1,63 @@
-from flask import Flask, render_template, redirect, url_for, session
+from flask import Flask, render_template, redirect, url_for, session,request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField, TextAreaField
 from wtforms.validators import InputRequired, NumberRange, ValidationError
-from form import ConceptForm, PersonalizeStatus, EmotionCount, EmotionDescribe
+
+import os
+
+# 파일 저장 함수
+def save_data_to_file(data):
+    filename = 'data.txt'
+    with open(filename, 'a') as file:
+        file.write(data + '\n')
+
+class ConceptForm(FlaskForm):
+    concept = StringField('개념', validators=[InputRequired()])
+
+class PersonalizeStatus(FlaskForm):
+    status = SelectField('개인화 상태', choices=[('yes', '예'), ('no', '아니오')])
+
+class EmotionCount(FlaskForm):
+    happiness = IntegerField('Happiness', validators=[NumberRange(min=0, max=32)])
+    sadness = IntegerField('Sadness', validators=[NumberRange(min=0, max=32)])
+    anger = IntegerField('Anger', validators=[NumberRange(min=0, max=32)])
+    disgust = IntegerField('Disgust', validators=[NumberRange(min=0, max=32)])
+    neutral = IntegerField('Neutral', validators=[NumberRange(min=0, max=32)])
+    surprise = IntegerField('Surprise', validators=[NumberRange(min=0, max=32)])
+    fear = IntegerField('Fear', validators=[NumberRange(min=0, max=32)])
+
+    def validate(self, extra_validators=None):
+        if not super().validate(extra_validators):
+            return False
+        total = (
+            self.happiness.data + self.sadness.data + self.anger.data +
+            self.disgust.data + self.neutral.data + self.surprise.data +
+            self.fear.data
+        )
+        if total != 32:
+            raise ValidationError('감정 개수의 합은 반드시 32여야 합니다.')
+        return True
+
+class EmotionDescribe(FlaskForm):
+    happiness_description = TextAreaField('기쁨 감정 설명', validators=[InputRequired()])
+    sadness_description = TextAreaField('슬픔 감정 설명', validators=[InputRequired()])
+    anger_description = TextAreaField('분노 감정 설명', validators=[InputRequired()])
+    disgust_description = TextAreaField('혐오 감정 설명', validators=[InputRequired()])
+    neutral_description = TextAreaField('중립 감정 설명', validators=[InputRequired()])
+    surprise_description = TextAreaField('놀람 감정 설명', validators=[InputRequired()])
+    fear_description = TextAreaField('두려움 감정 설명', validators=[InputRequired()])
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'genemo'
-
 @app.route('/', methods=['GET', 'POST'])
+
 def genemo():
     form1 = ConceptForm()
     form2 = PersonalizeStatus()
     form3 = EmotionCount()
     form4 = EmotionDescribe()
-
+    
     if form1.validate_on_submit():
         session['concept'] = form1.concept.data
         return redirect(url_for('genemo'))
@@ -25,6 +69,8 @@ def genemo():
         else:
             return redirect(url_for('genemo', step='step5'))
 
+    
+
     if form3.validate_on_submit():
         session['happiness'] = form3.happiness.data
         session['sadness'] = form3.sadness.data
@@ -33,13 +79,38 @@ def genemo():
         session['neutral'] = form3.neutral.data
         session['surprise'] = form3.surprise.data
         session['fear'] = form3.fear.data
-        return redirect(url_for('genemo'))
+        return redirect(url_for('genemo',step="step4"))
+    
+    if form4.validate_on_submit():  # 새로운 폼이 제출되면 해당 데이터를 세션에 저장
+        session['happiness_description'] = form4.happiness_description.data
+        session['sadness_description'] = form4.sadness_description.data
+        session['anger_description'] = form4.anger_description.data
+        session['disgust_description'] = form4.disgust_description.data
+        session['neutral_description'] = form4.neutral_description.data
+        session['surprise_description'] = form4.surprise_description.data
+        session['fear_description'] = form4.fear_description.data
 
-    if form4.validate_on_submit():
-        session['describe'] = form4.describe.data
-        return redirect(url_for('genemo'))
+        data = f"Concept: {session.get('concept')}\n" \
+               f"Status: {session.get('status')}\n" \
+               f"Happiness: {session.get('happiness')}\n" \
+               f"Sadness: {session.get('sadness')}\n" \
+               f"Anger: {session.get('anger')}\n" \
+               f"Disgust: {session.get('disgust')}\n" \
+               f"Neutral: {session.get('neutral')}\n" \
+               f"Surprise: {session.get('surprise')}\n" \
+               f"Fear: {session.get('fear')}\n" \
+               f"Happiness Description: {session.get('happiness_description')}\n" \
+               f"Sadness Description: {session.get('sadness_description')}\n" \
+               f"Anger Description: {session.get('anger_description')}\n" \
+               f"Disgust Description: {session.get('disgust_description')}\n" \
+               f"Neutral Description: {session.get('neutral_description')}\n" \
+               f"Surprise Description: {session.get('surprise_description')}\n" \
+               f"Fear Description: {session.get('fear_description')}"
+        save_data_to_file(data)
+        return redirect(url_for('genemo',step="step5"))
 
-    return render_template('wizard.html', form1=form1, form2=form2, form3=form3, form4=form4,
+
+    return render_template('wizard.html', form1=form1, form2=form2, form3=form3,form4=form4,
                            concept=session.get('concept'),
                            status=session.get('status'),
                            happiness=session.get('happiness'),

@@ -6,6 +6,7 @@ from wtforms.validators import InputRequired, NumberRange, ValidationError
 
 
 
+
 class ConceptForm(FlaskForm):
     concept = StringField('개념', validators=[InputRequired()])
 
