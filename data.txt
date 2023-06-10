@@ -1,0 +1,16 @@
+Concept: ¾È³ç ³ª´Â À±¼ö¾ß
+Status: yes
+Happiness: 6
+Sadness: 6
+Anger: 6
+Disgust: 6
+Neutral: 6
+Surprise: 1
+Fear: 1
+Happiness Description: None
+Sadness Description: None
+Anger Description: None
+Disgust Description: None
+Neutral Description: None
+Surprise Description: None
+Fear Description: None

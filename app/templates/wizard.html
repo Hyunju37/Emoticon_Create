@@ -2,6 +2,52 @@
 <html>
 <head>
     <title>Genemo</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 감정 개수 변경 시 설명란 생성
+            $('input[type="number"]').on('input', function() {
+                var emotion = $(this).attr('name');
+                var count = $(this).val();
+                var descriptionDiv = $('#' + emotion + '_description');
+                descriptionDiv.empty();
+                for (var i = 0; i < count; i++) {
+                    var textarea = $('<textarea></textarea>', {
+                        'name': emotion + '_description_' + (i + 1),
+                        'placeholder': '감정 ' + emotion + '의 설명 ' + (i + 1)
+                    });
+                    descriptionDiv.append(textarea);
+                }
+            });
+
+            // 감정 개수 초기화 시 설명란 숨기기
+            $('input[type="number"]').each(function() {
+                var emotion = $(this).attr('name');
+                var count = $(this).val();
+                var descriptionDiv = $('#' + emotion + '_description');
+                descriptionDiv.empty();
+                for (var i = 0; i < count; i++) {
+                    var textarea = $('<textarea></textarea>', {
+                        'name': emotion + '_description_' + (i + 1),
+                        'placeholder': '감정 ' + emotion + '의 설명 ' + (i + 1)
+                    });
+                    descriptionDiv.append(textarea);
+                }
+                descriptionDiv.hide();
+            });
+
+            // 감정 개수 변경 시 설명란 표시/숨김
+            $('input[type="number"]').on('change', function() {
+                var emotion = $(this).attr('name');
+                var descriptionDiv = $('#' + emotion + '_description');
+                if ($(this).val() > 0) {
+                    descriptionDiv.show();
+                } else {
+                    descriptionDiv.hide();
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <h1>단계 1: 개념 시작</h1>
@@ -22,42 +68,41 @@
     <form method="POST" action="{{ url_for('genemo') }}">
         {{ form3.csrf_token }}
         {{ form3.happiness.label }} {{ form3.happiness }}
+        
         {{ form3.sadness.label }} {{ form3.sadness }}
+        
         {{ form3.anger.label }} {{ form3.anger }}
+        
         {{ form3.disgust.label }} {{ form3.disgust }}
+        
         {{ form3.neutral.label }} {{ form3.neutral }}
+        
         {{ form3.surprise.label }} {{ form3.surprise }}
+        
         {{ form3.fear.label }} {{ form3.fear }}
-        {% if form3.errors.total %}
-            <p style="color: rgb(52, 52, 52);">{{ form3.errors.total[0] }}</p>
-        {% endif %}
-        <button type="submit" onclick="validateEmotionCount()">다음</button>
-        <input type="submit" style="display: none;">
+        
+        
     </form>
 
     <h1>단계 4: 감정 설명</h1>
     <form method="POST" action="{{ url_for('genemo') }}">
         {{ form4.csrf_token }}
-        {{ form4.describe.label }} {{ form4.describe }}
+        <h2>기쁨</h2>
+        <div id="happiness_description"></div>
+        <h2>슬픔</h2>
+        <div id="sadness_description"></div>
+        <h2>분노</h2>
+        <div id="anger_description"></div>
+        <h2>혐오</h2>
+        <div id="disgust_description"></div>
+        <h2>중립</h2>
+        <div id="neutral_description"></div>
+        <h2>놀람</h2>
+        <div id="surprise_description"></div>
+        <h2>두려움</h2>
+        <div id="fear_description"></div>
         <button type="submit">다음</button>
     </form>
 
-    <h2>데이터:</h2>
-    <ul>
-        <li>개념: {{ concept }}</li>
-        <li>개인화 상태: {{ status }}</li>
-        <li>감정 개수:
-            <ul>
-                <li>기쁨: {{ happiness }}</li>
-                <li>슬픔: {{ sadness }}</li>
-                <li>분노: {{ anger }}</li>
-                <li>혐오: {{ disgust }}</li>
-                <li>중립: {{ neutral }}</li>
-                <li>놀람: {{ surprise }}</li>
-                <li>두려움: {{ fear }}</li>
-            </ul>
-        </li>
-        <li>감정 설명: {{ describe }}</li>
-    </ul>
 </body>
 </html>
