@@ -1,4 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, session, request,make_response
+import tensorflow
+import keras_cv
 #from flask_wtf import FlaskForm
 #from wtforms import StringField, SelectField, IntegerField, TextAreaField
 #from wtforms.validators import InputRequired, NumberRange, ValidationError
@@ -31,6 +33,7 @@ def genemo():
     info = request.get_json()
     print(info)
 
+
     if info['mode'] == 0:
         data = f"Concept: {info['formData']}\n" \
                 f"Status: {info['mode']}\n"
@@ -56,6 +59,12 @@ def genemo():
     response=make_response()
     response.set_cookie('input_data', urllib.parse.quote(data))
     
+    #모델 생성 및 이미지 생성
+    img_height = img_width = 360
+    emotion_model = keras_cv.models.StableDiffusion(
+    img_width=img_width, img_height=img_height)
+    emotion_model.diffusion_model.load_weights('finetuned_stable_diffusion3.h5')
+
     return response
 
 
