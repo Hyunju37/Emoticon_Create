@@ -106,7 +106,7 @@ h4 {
   font-family: "IBM Plex Sans KR", sans-serif;
 }
 
-form {
+.concept-form {
   margin-top: 70px;
   display: block;
   align-items: center;
@@ -334,4 +334,9 @@ input:focus {
 .progressbar-area {
   position: fixed;
   z-index: 100;
+}
+
+.num-btn {
+  background-color: #FFFFA3;
+  border: none;
 }

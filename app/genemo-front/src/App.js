@@ -129,7 +129,7 @@ function FormWizard() {
     return (
       <div className="emotion">
         <p className="emotion-label">{type}</p>
-        <button onClick={() => handleMinus(index)}>-</button>
+        <button onClick={() => handleMinus(index)} className="num-btn">-</button>
         <input
           className="jang"
           type="number"
@@ -138,7 +138,7 @@ function FormWizard() {
           max="32"
           onChange={(event) => handleNumberChange(event, index)}
         />
-        <button onClick={() => handlePlus(index)}>+</button>
+        <button onClick={() => handlePlus(index)} className="num-btn">+</button>
       </div>
     );
   }
@@ -425,6 +425,7 @@ function FormWizard() {
         {step === 4 && (
           <div>
             <MyProgressBar currentStep={step} />
+            <form onSubmit={nextStep}>
             {numbers[0] !== 0 && (
               <div>
                 <BigTitle ttl="기쁨" />
@@ -437,7 +438,8 @@ function FormWizard() {
                       className="description2"
                       value={descs[0][index] || ""}
                       onChange={(event) => handleInputChange(0, index, event)}
-                    ></input>
+                      required
+                    />
                   </div>
                 ))}
               </div>
@@ -454,7 +456,8 @@ function FormWizard() {
                       className="description2"
                       value={descs[1][index] || ""}
                       onChange={(event) => handleInputChange(1, index, event)}
-                    ></input>
+                      required
+                    />
                   </div>
                 ))}
               </div>
@@ -471,7 +474,8 @@ function FormWizard() {
                       className="description2"
                       value={descs[2][index] || ""}
                       onChange={(event) => handleInputChange(2, index, event)}
-                    ></input>
+                      required
+                    />
                   </div>
                 ))}
               </div>
@@ -488,7 +492,8 @@ function FormWizard() {
                       className="description2"
                       value={descs[3][index] || ""}
                       onChange={(event) => handleInputChange(3, index, event)}
-                    ></input>
+                      required
+                    />
                   </div>
                 ))}
               </div>
@@ -505,7 +510,8 @@ function FormWizard() {
                       className="description2"
                       value={descs[4][index] || ""}
                       onChange={(event) => handleInputChange(4, index, event)}
-                    ></input>
+                      required
+                    />
                   </div>
                 ))}
               </div>
@@ -522,7 +528,8 @@ function FormWizard() {
                       className="description2"
                       value={descs[5][index] || ""}
                       onChange={(event) => handleInputChange(5, index, event)}
-                    ></input>
+                      required
+                    />
                   </div>
                 ))}
               </div>
@@ -539,7 +546,8 @@ function FormWizard() {
                       className="description2"
                       value={descs[6][index] || ""}
                       onChange={(event) => handleInputChange(6, index, event)}
-                    ></input>
+                      required
+                    />
                   </div>
                 ))}
               </div>
@@ -548,10 +556,11 @@ function FormWizard() {
               <button className="smallBtn" onClick={prevStep}>
                 이전으로
               </button>
-              <button className="smallBtn" onClick={nextStep}>
+              <button className="smallBtn" type="submit">
                 생성하기
               </button>
             </div>
+            </form>
           </div>
         )}
 

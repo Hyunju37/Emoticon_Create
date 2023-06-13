@@ -29,7 +29,6 @@ def genemo():
     
     
     info = request.get_json()
-    print('wowww')
     print(info)
 
     if info['mode'] == 0:
