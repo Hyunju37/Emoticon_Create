@@ -110,6 +110,8 @@ function FormWizard() {
     "image6",
   ];
 
+  const [fromflask, setFromFlask] = useState({});
+
   useEffect(() => {
     setRemaining(
       32 -
@@ -176,18 +178,22 @@ function FormWizard() {
     console.log(formData);
   }, [formData]);
 
+
   useEffect(() => {
     console.log({ step });
+    /*
+    if (step === 5) {
+      setTimeout(function () {
+        getDataFromServer();
+      }, 2000);
+    }
+    */
   }, [step]);
-
+  /*
   useEffect(() => {
     console.log(descs);
   }, [descs]);
-
-  useEffect(() => {
-    console.log(`mode${mode}`);
-  }, [mode]);
-
+*/
   const handleSubmit = (e) => {
     e.preventDefault();
     // Perform form submission logic here
@@ -196,27 +202,29 @@ function FormWizard() {
 
   const nextStep = () => {
     if (step === 2) {
-      custommode();
-      sendModeToServer();
+      setmode(1);
+      //sendModeToServer(1);
     }
     if (step === 3) {
-      if (remaining < 0) {
-        alert("32개 이하만 입력할 수 있습니다.");
+      if (remaining !== 0) {
+        alert("이미지는 총 32장이어야 합니다.");
         return;
       }
     }
     if (step === 4) {
       sendDataToServer1();
+      //sendDataCustom();
     }
     setStep(step + 1);
   };
 
   const skipStep = () => {
     if (step === 2) {
-      defaultmode();
-      setStep(step + 3);
-      sendModeToServer();
+      setmode(0);
+      //sendModeToServer(0);
       sendDataToServer0();
+      //sendDataDefault();
+      setStep(step + 3);
     }
   };
 
@@ -237,9 +245,13 @@ function FormWizard() {
   };
 
   //간편모드랑 커스텀 모드 중 어떤 건지 전송, (2단계에서 어떤 버튼을 누르느냐에 따라.)
+  /*
   const sendModeToServer = () => {
+    const data = {
+      mode: mode,
+    };
     axios
-      .post("/api/data", { mode })
+      .post("/", { data }, { headers: { "Content-Type": `application/json` } })
       .then((response) => {
         console.log(response);
       })
@@ -247,11 +259,32 @@ function FormWizard() {
         console.error(error);
       });
   };
+  */
 
   //간편 모드(2단계에서 데이터 전송)
+  const sendDataDefault = async () => {
+    try {
+      const info = JSON.stringify({
+        mode: 0,
+        formData: formData,
+      });
+      await axios.post(
+        "/",
+        { info },
+        { headers: { "Content-Type": `application/json` } }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const sendDataToServer0 = () => {
+    const info = JSON.stringify({
+      mode: 0,
+      formData: formData,
+    });
     axios
-      .post("/api/data", { formData })
+      .post("/", info, { headers: { "Content-Type": "application/json" } })
       .then((response) => {
         console.log(response);
       })
@@ -260,9 +293,34 @@ function FormWizard() {
       });
   };
   //커스텀 모드(4단계에서 데이터 전송)
+  const sendDataCustom = async () => {
+    try {
+      const info = JSON.stringify({
+        mode: 1,
+        formData: formData,
+        numbers: numbers,
+        descs: descs,
+      });
+      await axios.post(
+        "/",
+        { info },
+        { headers: { "Content-Type": `application/json` } }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const sendDataToServer1 = () => {
+    const info = JSON.stringify({
+      mode: 1,
+      formData: formData,
+      numbers: numbers,
+      descs: descs,
+    });
+
     axios
-      .post("/api/data", { formData, numbers, descs })
+      .post("/", info, { headers: { "Content-Type": "application/json" } })
       .then((response) => {
         console.log(response);
       })
@@ -270,7 +328,20 @@ function FormWizard() {
         console.error(error);
       });
   };
-
+  //테스트용
+  /*
+  const getDataFromServer = () => {
+    axios
+      .get("/")
+      .then((response) => {
+        console.log(response);
+        setFromFlask(response.config);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  */
   return (
     <div>
       <main>
@@ -494,6 +565,7 @@ function FormWizard() {
               <button className="smallBtn" onClick={restart}>
                 다시 생성하기
               </button>
+              <p>{fromflask.data}</p>
               <button className="smallBtn">이미지 다운 받기</button>
             </div>
           </div>

@@ -1,90 +1,138 @@
-from flask import Flask, render_template, redirect, url_for, session
-from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, IntegerField, TextAreaField
-from wtforms.validators import InputRequired, NumberRange, ValidationError
-from chatgpt import openai
-from form import ConceptForm, PersonalizeStatus,EmotionCount,EmotionDescribe
+from flask import Flask, render_template, redirect, url_for, session, request
+#from flask_wtf import FlaskForm
+#from wtforms import StringField, SelectField, IntegerField, TextAreaField
+#from wtforms.validators import InputRequired, NumberRange, ValidationError
+#from chatgpt import openai
+#from form import ConceptForm, PersonalizeStatus,EmotionCount,EmotionDescribe
 import os
 
 # 파일 저장 함수
 def save_data_to_file(data):
     filename = 'data.txt'
-    with open(filename, 'a') as file:
+    with open(filename, 'w') as file:
         file.write(data + '\n')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'genemo'
-@app.route('/', methods=['GET', 'POST'])
 
+@app.route('/', methods=['GET'])
+def genemo_index():
+   return render_template("index.html")
+
+
+@app.route('/', methods=['POST'])
 def genemo():
-    form1 = ConceptForm()
-    form2 = PersonalizeStatus()
-    form3 = EmotionCount()
-    form4 = EmotionDescribe()
+    #form1 = ConceptForm()
+    #form2 = PersonalizeStatus()
+    #form3 = EmotionCount()
+    #form4 = EmotionDescribe()
     
-    if form1.validate_on_submit():
-        session['concept'] = form1.concept.data
-        return redirect(url_for('genemo'))
+    
+    info = request.get_json()
+    print('wowww')
+    print(info)
 
-    if form2.validate_on_submit():
-        session['status'] = form2.status.data
-        if form2.status.data == 'yes':
-            return redirect(url_for('genemo', step='step3'))
-        else:
-            return redirect(url_for('genemo', step='step5'))
-
+    if info['mode'] == 0:
+        data = f"Concept: {info['formData']}\n" \
+                f"Status: {info['mode']}\n"
+    else:
+        data = f"Concept: {info['formData']}\n" \
+                f"Status: {info['mode']}\n" \
+                f"Happiness: {info['numbers'][0]}\n" \
+                f"Sadness: {info['numbers'][1]}\n" \
+                f"Anger: {info['numbers'][2]}\n" \
+                f"Fear: {info['numbers'][3]}\n" \
+                f"Surprise: {info['numbers'][4]}\n" \
+                f"Disgust: {info['numbers'][5]}\n" \
+                f"Neutral: {info['numbers'][6]}\n" \
+                f"Happiness Description: {info['descs'][0]}\n" \
+                f"Sadness Description: {info['descs'][1]}\n" \
+                f"Anger Description: {info['descs'][2]}\n" \
+                f"Fear Description: {info['descs'][3]}\n" \
+                f"Surprise Description: {info['descs'][4]}\n" \
+                f"Disgust Description: {info['descs'][5]}\n" \
+                f"Neutral Description: {info['descs'][6]}\n"
+    
+    save_data_to_file(data)
+    return(info)
     
 
-    if form3.validate_on_submit():
-        session['happiness'] = form3.happiness.data
-        session['sadness'] = form3.sadness.data
-        session['anger'] = form3.anger.data
-        session['disgust'] = form3.disgust.data
-        session['neutral'] = form3.neutral.data
-        session['surprise'] = form3.surprise.data
-        session['fear'] = form3.fear.data
-        return redirect(url_for('genemo',step="step4"))
+
+
+
+
+
+#@app.route('/', methods=['GET', 'POST'])
+
+#def genemo():
+#    form1 = ConceptForm()
+#    form2 = PersonalizeStatus()
+#    form3 = EmotionCount()
+#    form4 = EmotionDescribe()
     
-    if form4.validate_on_submit():  # 새로운 폼이 제출되면 해당 데이터를 세션에 저장
-        session['happiness_description'] = form4.happiness_description.data
-        session['sadness_description'] = form4.sadness_description.data
-        session['anger_description'] = form4.anger_description.data
-        session['disgust_description'] = form4.disgust_description.data
-        session['neutral_description'] = form4.neutral_description.data
-        session['surprise_description'] = form4.surprise_description.data
-        session['fear_description'] = form4.fear_description.data
+#    if form1.validate_on_submit():
+#        session['concept'] = form1.concept.data
+#        return redirect(url_for('genemo'))
 
-        data = f"Concept: {session.get('concept')}\n" \
-               f"Status: {session.get('status')}\n" \
-               f"Happiness: {session.get('happiness')}\n" \
-               f"Sadness: {session.get('sadness')}\n" \
-               f"Anger: {session.get('anger')}\n" \
-               f"Disgust: {session.get('disgust')}\n" \
-               f"Neutral: {session.get('neutral')}\n" \
-               f"Surprise: {session.get('surprise')}\n" \
-               f"Fear: {session.get('fear')}\n" \
-               f"Happiness Description: {session.get('happiness_description')}\n" \
-               f"Sadness Description: {session.get('sadness_description')}\n" \
-               f"Anger Description: {session.get('anger_description')}\n" \
-               f"Disgust Description: {session.get('disgust_description')}\n" \
-               f"Neutral Description: {session.get('neutral_description')}\n" \
-               f"Surprise Description: {session.get('surprise_description')}\n" \
-               f"Fear Description: {session.get('fear_description')}"
-        save_data_to_file(data)
-        return redirect(url_for('genemo',step="step5"))
+#    if form2.validate_on_submit():
+#        session['status'] = form2.status.data
+#        if form2.status.data == 'yes':
+#            return redirect(url_for('genemo', step='step3'))
+#        else:
+#            return redirect(url_for('genemo', step='step5'))
+
+#    
+#
+#    if form3.validate_on_submit():
+#        session['happiness'] = form3.happiness.data
+#        session['sadness'] = form3.sadness.data
+#        session['anger'] = form3.anger.data
+#        session['disgust'] = form3.disgust.data
+#        session['neutral'] = form3.neutral.data
+#        session['surprise'] = form3.surprise.data
+#        session['fear'] = form3.fear.data
+#        return redirect(url_for('genemo',step="step4"))
+#    
+#    if form4.validate_on_submit():  # 새로운 폼이 제출되면 해당 데이터를 세션에 저장
+#        session['happiness_description'] = form4.happiness_description.data
+#        session['sadness_description'] = form4.sadness_description.data
+#        session['anger_description'] = form4.anger_description.data
+#        session['disgust_description'] = form4.disgust_description.data
+#        session['neutral_description'] = form4.neutral_description.data
+#        session['surprise_description'] = form4.surprise_description.data
+#        session['fear_description'] = form4.fear_description.data
+
+#        data = f"Concept: {session.get('concept')}\n" \
+#               f"Status: {session.get('status')}\n" \
+#               f"Happiness: {session.get('happiness')}\n" \
+#              f"Sadness: {session.get('sadness')}\n" \
+#               f"Anger: {session.get('anger')}\n" \
+#               f"Disgust: {session.get('disgust')}\n" \
+#               f"Neutral: {session.get('neutral')}\n" \
+#              f"Surprise: {session.get('surprise')}\n" \
+#               f"Fear: {session.get('fear')}\n" \
+#               f"Happiness Description: {session.get('happiness_description')}\n" \
+#               f"Sadness Description: {session.get('sadness_description')}\n" \
+#               f"Anger Description: {session.get('anger_description')}\n" \
+#               f"Disgust Description: {session.get('disgust_description')}\n" \
+#               f"Neutral Description: {session.get('neutral_description')}\n" \
+#               f"Surprise Description: {session.get('surprise_description')}\n" \
+#               f"Fear Description: {session.get('fear_description')}"
+#        save_data_to_file(data)
+#        return redirect(url_for('genemo',step="step5"))
 
 
-    return render_template('wizard.html', form1=form1, form2=form2, form3=form3,form4=form4,
-                           concept=session.get('concept'),
-                           status=session.get('status'),
-                           happiness=session.get('happiness'),
-                           sadness=session.get('sadness'),
-                           anger=session.get('anger'),
-                           disgust=session.get('disgust'),
-                           neutral=session.get('neutral'),
-                           surprise=session.get('surprise'),
-                           fear=session.get('fear'),
-                           describe=session.get('describe'))
+#    return render_template('wizard.html', form1=form1, form2=form2, form3=form3,form4=form4,
+#                           concept=session.get('concept'),
+#                           status=session.get('status'),
+#                           happiness=session.get('happiness'),
+#                           sadness=session.get('sadness'),
+#                           anger=session.get('anger'),
+#                           disgust=session.get('disgust'),
+#                           neutral=session.get('neutral'),
+#                           surprise=session.get('surprise'),
+#                           fear=session.get('fear'),
+#                           describe=session.get('describe'))
 
 if __name__ == '__main__':
     app.run(debug=True)
