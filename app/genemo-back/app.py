@@ -1,15 +1,15 @@
-from flask import Flask, render_template, redirect, url_for, session, request
+from flask import Flask, render_template, redirect, url_for, session, request,make_response
 #from flask_wtf import FlaskForm
 #from wtforms import StringField, SelectField, IntegerField, TextAreaField
 #from wtforms.validators import InputRequired, NumberRange, ValidationError
 #from chatgpt import openai
 #from form import ConceptForm, PersonalizeStatus,EmotionCount,EmotionDescribe
 import os
-
+import urllib.parse
 # 파일 저장 함수
 def save_data_to_file(data):
     filename = 'data.txt'
-    with open(filename, 'w') as file:
+    with open(filename, 'w',encoding='utf-8') as file:
         file.write(data + '\n')
 
 app = Flask(__name__)
@@ -29,7 +29,7 @@ def genemo():
     
     
     info = request.get_json()
-    print('wowww')
+
     print(info)
 
     if info['mode'] == 0:
@@ -54,8 +54,21 @@ def genemo():
                 f"Neutral Description: {info['descs'][6]}\n"
     
     save_data_to_file(data)
-    return(info)
+    response=make_response()
+    response.set_cookie('input_data', urllib.parse.quote(data))
     
+    return response
+
+
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+    
+
 
 
 
@@ -134,8 +147,7 @@ def genemo():
 #                           fear=session.get('fear'),
 #                           describe=session.get('describe'))
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
 # from flask import Flask, render_template, redirect, url_for, session
 # from flask_wtf import FlaskForm
 # from wtforms import StringField, SelectField, IntegerField, TextAreaField
