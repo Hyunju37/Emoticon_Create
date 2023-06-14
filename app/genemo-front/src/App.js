@@ -20,7 +20,7 @@ const MyProgressBar = ({ currentStep }) => {
       className="progressbar-area"
     >
       <ProgressBar
-        percent={(currentStep - 1) * 25}
+        percent={(currentStep - 1) * 20}
         filledBackground="linear-gradient(to right, #FFC694, #F5600C"
         width="100%;"
       ></ProgressBar>
@@ -33,19 +33,13 @@ function Header() {
     <header>
       <div className="logo">
         <img src={logoImg} alt="genego logo" className="logoimg" />
-        <a className="logottl" href="index.html">
+        <a className="logottl">
           Ge-Nemo
         </a>
       </div>
       <ul className="nav-bar">
         <li>
-          <a href="concept.html">execute</a>
-        </li>
-        <li>
-          <a href="contribution.html">contribution</a>
-        </li>
-        <li>
-          <a href="about.html">about</a>
+          <a>about</a>
         </li>
       </ul>
     </header>
@@ -68,31 +62,6 @@ function MiddleTitle({ ttl }) {
   );
 }
 
-const ImageViewer = ({ imagePaths }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const goToNextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imagePaths.length);
-  };
-  const goToPrevImage = () => {
-    setCurrentImageIndex(
-      (prevIndex) => (prevIndex - 1 + imagePaths.length) % imagePaths.length
-    );
-  };
-
-  return (
-    <div className="img-area">
-      <div className="triangle-left" onClick={goToPrevImage}></div>
-      <div className="img-box">
-        <img
-          src={imagePaths[currentImageIndex]}
-          alt={`Image ${currentImageIndex}`}
-        />
-      </div>
-      <div className="triangle-right" onClick={goToNextImage}></div>
-    </div>
-  );
-};
-
 function FormWizard() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState("");
@@ -100,6 +69,8 @@ function FormWizard() {
   const [remaining, setRemaining] = useState(32);
   const [mode, setmode] = useState(-1);
   const [descs, setDescs] = useState(Array(7).fill([]));
+  const [loading, setLoading] = useState(1);
+  /*
   const imagePaths = [
     "image0",
     "image1",
@@ -109,8 +80,9 @@ function FormWizard() {
     "image5",
     "image6",
   ];
-
-  const [fromflask, setFromFlask] = useState({});
+  */
+  //const fromflask = [];
+  const [fromflask, setFromFlask] = useState([]);
 
   useEffect(() => {
     setRemaining(
@@ -129,7 +101,9 @@ function FormWizard() {
     return (
       <div className="emotion">
         <p className="emotion-label">{type}</p>
-        <button onClick={() => handleMinus(index)} className="num-btn">-</button>
+        <button onClick={() => handleMinus(index)} className="num-btn">
+          -
+        </button>
         <input
           className="jang"
           type="number"
@@ -138,10 +112,60 @@ function FormWizard() {
           max="32"
           onChange={(event) => handleNumberChange(event, index)}
         />
-        <button onClick={() => handlePlus(index)} className="num-btn">+</button>
+        <button onClick={() => handlePlus(index)} className="num-btn">
+          +
+        </button>
       </div>
     );
   }
+  const LoadingPage = () => {
+    return (
+      <div>
+        <MiddleTitle ttl="생성중..." />
+        <div className="img-area">
+          <div class="dots box">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  const ImageViewer = ({ imagePaths }) => {
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const goToNextImage = () => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imagePaths.length);
+    };
+    const goToPrevImage = () => {
+      setCurrentImageIndex(
+        (prevIndex) => (prevIndex - 1 + imagePaths.length) % imagePaths.length
+      );
+    };
+    return (
+      <div>
+        <MiddleTitle ttl="생성 완료!" />
+        <MiddleTitle ttl="고객님만의 이모티콘이 완성되었습니다." />
+        <div className="img-area">
+          <div className="triangle-left" onClick={goToPrevImage}></div>
+          <div className="img-box">
+            <img
+              src={imagePaths[currentImageIndex]}
+              alt={`${imagePaths[currentImageIndex]}`}
+            />
+          </div>
+          <div className="triangle-right" onClick={goToNextImage}></div>
+        </div>
+        <div className="btnArea2">
+          <button className="smallBtn" onClick={restart}>
+            다시 생성하기
+          </button>
+          <button className="smallBtn">이미지 다운 받기</button>
+        </div>
+      </div>
+    );
+  };
+
   const handleMinus = (index) => {
     const updatedNumbers = [...numbers];
     if (updatedNumbers[index] > 0) {
@@ -178,16 +202,11 @@ function FormWizard() {
     console.log(formData);
   }, [formData]);
 
-
   useEffect(() => {
     console.log({ step });
-    /*
     if (step === 5) {
-      setTimeout(function () {
-        getDataFromServer();
-      }, 2000);
+      getDataFromServer();
     }
-    */
   }, [step]);
   /*
   useEffect(() => {
@@ -203,7 +222,6 @@ function FormWizard() {
   const nextStep = () => {
     if (step === 2) {
       setmode(1);
-      //sendModeToServer(1);
     }
     if (step === 3) {
       if (remaining !== 0) {
@@ -244,24 +262,8 @@ function FormWizard() {
     setmode("0");
   };
 
-  //간편모드랑 커스텀 모드 중 어떤 건지 전송, (2단계에서 어떤 버튼을 누르느냐에 따라.)
-  /*
-  const sendModeToServer = () => {
-    const data = {
-      mode: mode,
-    };
-    axios
-      .post("/", { data }, { headers: { "Content-Type": `application/json` } })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  */
-
   //간편 모드(2단계에서 데이터 전송)
+  /*
   const sendDataDefault = async () => {
     try {
       const info = JSON.stringify({
@@ -277,7 +279,7 @@ function FormWizard() {
       console.error(error);
     }
   };
-
+  */
   const sendDataToServer0 = () => {
     const info = JSON.stringify({
       mode: 0,
@@ -293,6 +295,7 @@ function FormWizard() {
       });
   };
   //커스텀 모드(4단계에서 데이터 전송)
+  /*
   const sendDataCustom = async () => {
     try {
       const info = JSON.stringify({
@@ -310,7 +313,7 @@ function FormWizard() {
       console.error(error);
     }
   };
-
+  */
   const sendDataToServer1 = () => {
     const info = JSON.stringify({
       mode: 1,
@@ -328,20 +331,19 @@ function FormWizard() {
         console.error(error);
       });
   };
-  //테스트용
-  /*
-  const getDataFromServer = () => {
-    axios
-      .get("/")
-      .then((response) => {
-        console.log(response);
-        setFromFlask(response.config);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  */
+  //이미지를 받아오는 함수
+  const getDataFromServer = async () => {
+    try {
+      const response = await axios.get("/img");
+      console.log(response.data);
+      setFromFlask(response.data);
+    }
+    catch(err) {
+      console.log(err);
+    }
+    setTimeout(()=>nextStep(), 5000);
+  }
+  
   return (
     <div>
       <main>
@@ -426,157 +428,153 @@ function FormWizard() {
           <div>
             <MyProgressBar currentStep={step} />
             <form onSubmit={nextStep}>
-            {numbers[0] !== 0 && (
-              <div>
-                <BigTitle ttl="기쁨" />
-                <SmallTitle ttl="'기쁨'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
-                {Array.from({ length: numbers[0] }, (_, index) => (
-                  <div className="desc-area" key={index}>
-                    <label className="concept-label2">{index + 1}</label>
-                    <input
-                      type="text"
-                      className="description2"
-                      value={descs[0][index] || ""}
-                      onChange={(event) => handleInputChange(0, index, event)}
-                      required
-                    />
-                  </div>
-                ))}
+              {numbers[0] !== 0 && (
+                <div>
+                  <BigTitle ttl="기쁨" />
+                  <SmallTitle ttl="'기쁨'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
+                  {Array.from({ length: numbers[0] }, (_, index) => (
+                    <div className="desc-area" key={index}>
+                      <label className="concept-label2">{index + 1}</label>
+                      <input
+                        type="text"
+                        className="description2"
+                        value={descs[0][index] || ""}
+                        onChange={(event) => handleInputChange(0, index, event)}
+                        required
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {numbers[1] !== 0 && (
+                <div>
+                  <BigTitle ttl="슬픔" />
+                  <SmallTitle ttl="'슬픔'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
+                  {Array.from({ length: numbers[1] }, (_, index) => (
+                    <div className="desc-area" key={index}>
+                      <label className="concept-label2">{index + 1}</label>
+                      <input
+                        type="text"
+                        className="description2"
+                        value={descs[1][index] || ""}
+                        onChange={(event) => handleInputChange(1, index, event)}
+                        required
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {numbers[2] !== 0 && (
+                <div>
+                  <BigTitle ttl="분노" />
+                  <SmallTitle ttl="'분노'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
+                  {Array.from({ length: numbers[2] }, (_, index) => (
+                    <div className="desc-area" key={index}>
+                      <label className="concept-label2">{index + 1}</label>
+                      <input
+                        type="text"
+                        className="description2"
+                        value={descs[2][index] || ""}
+                        onChange={(event) => handleInputChange(2, index, event)}
+                        required
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {numbers[3] !== 0 && (
+                <div>
+                  <BigTitle ttl="공포" />
+                  <SmallTitle ttl="'공포'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
+                  {Array.from({ length: numbers[3] }, (_, index) => (
+                    <div className="desc-area" key={index}>
+                      <label className="concept-label2">{index + 1}</label>
+                      <input
+                        type="text"
+                        className="description2"
+                        value={descs[3][index] || ""}
+                        onChange={(event) => handleInputChange(3, index, event)}
+                        required
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {numbers[4] !== 0 && (
+                <div>
+                  <BigTitle ttl="놀람" />
+                  <SmallTitle ttl="'놀람'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
+                  {Array.from({ length: numbers[4] }, (_, index) => (
+                    <div className="desc-area" key={index}>
+                      <label className="concept-label2">{index + 1}</label>
+                      <input
+                        type="text"
+                        className="description2"
+                        value={descs[4][index] || ""}
+                        onChange={(event) => handleInputChange(4, index, event)}
+                        required
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {numbers[5] !== 0 && (
+                <div>
+                  <BigTitle ttl="혐오" />
+                  <SmallTitle ttl="'혐오'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
+                  {Array.from({ length: numbers[5] }, (_, index) => (
+                    <div className="desc-area" key={index}>
+                      <label className="concept-label2">{index + 1}</label>
+                      <input
+                        type="text"
+                        className="description2"
+                        value={descs[5][index] || ""}
+                        onChange={(event) => handleInputChange(5, index, event)}
+                        required
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {numbers[6] !== 0 && (
+                <div>
+                  <BigTitle ttl="중립" />
+                  <SmallTitle ttl="'중립'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
+                  {Array.from({ length: numbers[6] }, (_, index) => (
+                    <div className="desc-area" key={index}>
+                      <label className="concept-label2">{index + 1}</label>
+                      <input
+                        type="text"
+                        className="description2"
+                        value={descs[6][index] || ""}
+                        onChange={(event) => handleInputChange(6, index, event)}
+                        required
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="btnArea2">
+                <button className="smallBtn" onClick={prevStep}>
+                  이전으로
+                </button>
+                <button className="smallBtn" type="submit">
+                  생성하기
+                </button>
               </div>
-            )}
-            {numbers[1] !== 0 && (
-              <div>
-                <BigTitle ttl="슬픔" />
-                <SmallTitle ttl="'슬픔'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
-                {Array.from({ length: numbers[1] }, (_, index) => (
-                  <div className="desc-area" key={index}>
-                    <label className="concept-label2">{index + 1}</label>
-                    <input
-                      type="text"
-                      className="description2"
-                      value={descs[1][index] || ""}
-                      onChange={(event) => handleInputChange(1, index, event)}
-                      required
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            {numbers[2] !== 0 && (
-              <div>
-                <BigTitle ttl="분노" />
-                <SmallTitle ttl="'분노'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
-                {Array.from({ length: numbers[2] }, (_, index) => (
-                  <div className="desc-area" key={index}>
-                    <label className="concept-label2">{index + 1}</label>
-                    <input
-                      type="text"
-                      className="description2"
-                      value={descs[2][index] || ""}
-                      onChange={(event) => handleInputChange(2, index, event)}
-                      required
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            {numbers[3] !== 0 && (
-              <div>
-                <BigTitle ttl="공포" />
-                <SmallTitle ttl="'공포'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
-                {Array.from({ length: numbers[3] }, (_, index) => (
-                  <div className="desc-area" key={index}>
-                    <label className="concept-label2">{index + 1}</label>
-                    <input
-                      type="text"
-                      className="description2"
-                      value={descs[3][index] || ""}
-                      onChange={(event) => handleInputChange(3, index, event)}
-                      required
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            {numbers[4] !== 0 && (
-              <div>
-                <BigTitle ttl="놀람" />
-                <SmallTitle ttl="'놀람'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
-                {Array.from({ length: numbers[4] }, (_, index) => (
-                  <div className="desc-area" key={index}>
-                    <label className="concept-label2">{index + 1}</label>
-                    <input
-                      type="text"
-                      className="description2"
-                      value={descs[4][index] || ""}
-                      onChange={(event) => handleInputChange(4, index, event)}
-                      required
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            {numbers[5] !== 0 && (
-              <div>
-                <BigTitle ttl="혐오" />
-                <SmallTitle ttl="'혐오'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
-                {Array.from({ length: numbers[5] }, (_, index) => (
-                  <div className="desc-area" key={index}>
-                    <label className="concept-label2">{index + 1}</label>
-                    <input
-                      type="text"
-                      className="description2"
-                      value={descs[5][index] || ""}
-                      onChange={(event) => handleInputChange(5, index, event)}
-                      required
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            {numbers[6] !== 0 && (
-              <div>
-                <BigTitle ttl="중립" />
-                <SmallTitle ttl="'중립'을 위한 이모티콘을 구체적으로 묘사해 주세요" />
-                {Array.from({ length: numbers[6] }, (_, index) => (
-                  <div className="desc-area" key={index}>
-                    <label className="concept-label2">{index + 1}</label>
-                    <input
-                      type="text"
-                      className="description2"
-                      value={descs[6][index] || ""}
-                      onChange={(event) => handleInputChange(6, index, event)}
-                      required
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            <div className="btnArea2">
-              <button className="smallBtn" onClick={prevStep}>
-                이전으로
-              </button>
-              <button className="smallBtn" type="submit">
-                생성하기
-              </button>
-            </div>
             </form>
           </div>
         )}
-
         {step === 5 && (
           <div className="result-page">
             <MyProgressBar currentStep={step} />
-            <MiddleTitle ttl="생성 완료!" />
-            <MiddleTitle ttl="고객님만의 이모티콘이 완성되었습니다." />
-            <ImageViewer imagePaths={imagePaths} />
-            <div className="btnArea2">
-              <button className="smallBtn" onClick={restart}>
-                다시 생성하기
-              </button>
-              <p>{fromflask.data}</p>
-              <button className="smallBtn">이미지 다운 받기</button>
-            </div>
+            <LoadingPage />
+          </div>
+        )}
+        {step === 6 && (
+          <div className="result-page">
+          <MyProgressBar currentStep={step} />
+          <ImageViewer imagePaths={fromflask} />
           </div>
         )}
       </main>

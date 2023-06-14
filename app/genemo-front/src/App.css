@@ -34,6 +34,7 @@ a.logottl {
   color: black;
   padding: 5px 24px;
   font-size: 30px;
+  cursor: pointer;
 }
 
 .nav-bar {
@@ -55,6 +56,7 @@ a.logottl {
   padding: 5px 15px;
   font-size: 20px;
   display: inline;
+  cursor: pointer;
 }
 
 main {
@@ -339,4 +341,36 @@ input:focus {
 .num-btn {
   background-color: #FFFFA3;
   border: none;
+}
+
+@keyframes dotAnimation {
+  50% {
+    transform: rotate(0.5turn);
+  }
+  100% {
+    transform: rotate(0.5turn);
+  }
+}
+
+.box {
+  width: 180px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.dots {
+  width: 180px;
+  display: flex;
+  justify-content: space-around;
+  animation: dotAnimation 1s ease-in-out infinite;
+  margin-top: 230px;
+}
+
+.dot {
+  background-color: #FFC694;
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  /* 👆🏻 If you set the border-radius to half of the width and height 
+  it becomes a circle, 50% also works*/
 }
