@@ -9,21 +9,88 @@ import axios from "axios";
 
 const MyProgressBar = ({ currentStep }) => {
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 70,
-        left: 0,
-        width: "100%",
-        padding: "0px",
-      }}
-      className="progressbar-area"
-    >
-      <ProgressBar
-        percent={(currentStep - 1) * 20}
-        filledBackground="linear-gradient(to right, #FFC694, #F5600C"
-        width="100%;"
-      ></ProgressBar>
+    <div className="bar-area">
+      <div
+        style={{
+          position: "fixed",
+          top: 70,
+          width: "50%",
+        }}
+        className="progressbar-area"
+      >
+        <ProgressBar
+          percent={(currentStep - 1) * 20}
+          filledBackground="linear-gradient(to right, #FFC694, #F5600C"
+          width="100%;"
+        >
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1} : Concept
+              </div>
+            )}
+          </Step>
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1} : Select Mode
+              </div>
+            )}
+          </Step>
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1} : Set Emotions
+              </div>
+            )}
+          </Step>
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1} : Describe Emoticon
+              </div>
+            )}
+          </Step>
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1} : Create Emoticon
+              </div>
+            )}
+          </Step>
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1} : Get Your Emoticon
+              </div>
+            )}
+          </Step>
+        </ProgressBar>
+      </div>
     </div>
   );
 };
@@ -571,4 +638,4 @@ function FormWizard() {
   );
 }
 
-export { Header, FormWizard, BigTitle, SmallTitle };
+export { Header, FormWizard };
