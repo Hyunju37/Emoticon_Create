@@ -374,3 +374,46 @@ input:focus {
   /* 👆🏻 If you set the border-radius to half of the width and height 
   it becomes a circle, 50% also works*/
 }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 101;
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: 1200px;
+  align-items: center;
+}
+
+.model-content > h4 {
+  font-size: 30px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.model-content > p {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+/* Close button */
+.close {
+  position: relative;
+  top: 0px;
+  right: 0px;
+  cursor: pointer;
+  font-size: 25px;
+}

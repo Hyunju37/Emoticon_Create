@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { Header, Main, FormWizard, BigTitle, SmallTitle } from "./App";
+import { Header, FormWizard} from "./App";
 //import FormWizard  from "./Wizard";
 import reportWebVitals from "./reportWebVitals";
 

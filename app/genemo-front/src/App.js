@@ -29,20 +29,42 @@ const MyProgressBar = ({ currentStep }) => {
 };
 
 function Header() {
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
   return (
-    <header>
-      <div className="logo">
-        <img src={logoImg} alt="genego logo" className="logoimg" />
-        <a className="logottl">
-          Ge-Nemo
-        </a>
-      </div>
-      <ul className="nav-bar">
-        <li>
-          <a>about</a>
-        </li>
-      </ul>
-    </header>
+    <div>
+      <header>
+        <div className="logo">
+          <img src={logoImg} alt="genego logo" className="logoimg" />
+          <a className="logottl">Ge-Nemo</a>
+        </div>
+        <ul className="nav-bar">
+          <li>
+            <a href="#" onClick={toggleModal}>
+              about
+            </a>
+          </li>
+        </ul>
+      </header>
+      {modal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={toggleModal}>
+              &times;
+            </span>
+            <h4>Ge-Nemo 가이드</h4>
+            <p>Ge-Nemo의 간편 모드는 Plutchik의 '감정 휠'을 기반으로 하며</p>
+            <p>개인화 모드는 Paul Ekman의 6가지 기본 감정을 기반으로 합니다.</p>
+            <p>기본 감정보다 구체적인 감정이나</p>
+            <p>표현하고 싶은 특정 이미지가 있다면</p>
+            <p>개인화 모드를 이용하시면 됩니다.</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -69,7 +91,7 @@ function FormWizard() {
   const [remaining, setRemaining] = useState(32);
   const [mode, setmode] = useState(-1);
   const [descs, setDescs] = useState(Array(7).fill([]));
-  const [loading, setLoading] = useState(1);
+
   /*
   const imagePaths = [
     "image0",
@@ -131,7 +153,7 @@ function FormWizard() {
         </div>
       </div>
     );
-  }
+  };
   const ImageViewer = ({ imagePaths }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const goToNextImage = () => {
@@ -263,23 +285,7 @@ function FormWizard() {
   };
 
   //간편 모드(2단계에서 데이터 전송)
-  /*
-  const sendDataDefault = async () => {
-    try {
-      const info = JSON.stringify({
-        mode: 0,
-        formData: formData,
-      });
-      await axios.post(
-        "/",
-        { info },
-        { headers: { "Content-Type": `application/json` } }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  */
+
   const sendDataToServer0 = () => {
     const info = JSON.stringify({
       mode: 0,
@@ -295,25 +301,7 @@ function FormWizard() {
       });
   };
   //커스텀 모드(4단계에서 데이터 전송)
-  /*
-  const sendDataCustom = async () => {
-    try {
-      const info = JSON.stringify({
-        mode: 1,
-        formData: formData,
-        numbers: numbers,
-        descs: descs,
-      });
-      await axios.post(
-        "/",
-        { info },
-        { headers: { "Content-Type": `application/json` } }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  */
+
   const sendDataToServer1 = () => {
     const info = JSON.stringify({
       mode: 1,
@@ -337,13 +325,12 @@ function FormWizard() {
       const response = await axios.get("/img");
       console.log(response.data);
       setFromFlask(response.data);
-    }
-    catch(err) {
+    } catch (err) {
       console.log(err);
     }
-    setTimeout(()=>nextStep(), 5000);
-  }
-  
+    setTimeout(() => nextStep(), 5000);
+  };
+
   return (
     <div>
       <main>
@@ -565,16 +552,18 @@ function FormWizard() {
             </form>
           </div>
         )}
+
         {step === 5 && (
           <div className="result-page">
             <MyProgressBar currentStep={step} />
             <LoadingPage />
           </div>
         )}
+
         {step === 6 && (
           <div className="result-page">
-          <MyProgressBar currentStep={step} />
-          <ImageViewer imagePaths={fromflask} />
+            <MyProgressBar currentStep={step} />
+            <ImageViewer imagePaths={fromflask} />
           </div>
         )}
       </main>
