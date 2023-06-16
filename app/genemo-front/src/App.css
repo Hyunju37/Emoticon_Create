@@ -78,9 +78,9 @@ main div {
 
 h2 {
   text-align: center;
-  margin-top: 25px;
+  margin-top: 35px;
   font-size: 48px;
-  margin-bottom: 25px;
+  margin-bottom: 35px;
 }
 
 h4 {
@@ -333,11 +333,6 @@ input:focus {
   align-items: center;
 }
 
-.progressbar-area {
-  position: fixed;
-  z-index: 100;
-}
-
 .num-btn {
   background-color: #FFFFA3;
   border: none;
@@ -398,13 +393,13 @@ input:focus {
   align-items: center;
 }
 
-.model-content > h4 {
+div.modal-content h4 {
   font-size: 30px;
   margin-top: 5px;
   margin-bottom: 10px;
 }
 
-.model-content > p {
+div.modal-content p {
   margin-top: 8px;
   margin-bottom: 8px;
 }
@@ -416,4 +411,36 @@ input:focus {
   right: 0px;
   cursor: pointer;
   font-size: 25px;
+}
+
+.indexedStep {
+  color: black;
+  width: 70px;
+  height: 30px;
+  font-size: 10px;
+  background-color: rgba(211, 211, 211, 0.8);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.indexedStep.accomplished {
+  background-color: #FCD762;
+}
+
+.bar-area {
+  position: fixed;
+  top: 70px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+  left:0;
+}
+
+.progressbar-area {
+  position: fixed;
+  z-index: 100;
 }
