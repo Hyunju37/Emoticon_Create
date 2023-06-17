@@ -25,9 +25,9 @@ def translate_concept(input_text):
     translated_text = response.choices[0].text.strip()
     return translated_text
 
-# input_text = input("번역할 한국어 텍스트를 입력하세요: ")
-# translated_text = translate_concept(input_text)
-# print("번역 결과: ", translated_text)
+#input_text = input("번역할 한국어 텍스트를 입력하세요: ")
+#translated_text = translate_concept(input_text)
+#print("번역 결과: ", translated_text)
 
 
 def translate_describe(input_text):
@@ -43,6 +43,6 @@ def translate_describe(input_text):
     translated_text = response.choices[0].text.strip()
     return translated_text
 
-# input_text = input("번역할 한국어 텍스트를 입력하세요: ")
-# translated_text = translate_describe(input_text)
-# print("번역 결과: ", translated_text)
+#input_text = input("번역할 한국어 텍스트를 입력하세요: ")
+#translated_text = translate_describe(input_text)
+#print("번역 결과: ", translated_text)
