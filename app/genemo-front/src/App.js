@@ -7,42 +7,133 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 
 import axios from "axios";
 
+import { saveAs } from "file-saver";
+
 const MyProgressBar = ({ currentStep }) => {
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 70,
-        left: 0,
-        width: "100%",
-        padding: "0px",
-      }}
-      className="progressbar-area"
-    >
-      <ProgressBar
-        percent={(currentStep - 1) * 20}
-        filledBackground="linear-gradient(to right, #FFC694, #F5600C"
-        width="100%;"
-      ></ProgressBar>
+    <div className="bar-area">
+      <div
+        style={{
+          position: "fixed",
+          top: 70,
+          width: "50%",
+        }}
+        className="progressbar-area"
+      >
+        <ProgressBar
+          percent={(currentStep - 1) * 20}
+          filledBackground="linear-gradient(to right, #FFC694, #F5600C"
+          width="100%;"
+        >
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1}. Concept
+              </div>
+            )}
+          </Step>
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1}. Select Mode
+              </div>
+            )}
+          </Step>
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1}. Set Emotions
+              </div>
+            )}
+          </Step>
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1}. Describe Emoticon
+              </div>
+            )}
+          </Step>
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1}. Create Emoticon
+              </div>
+            )}
+          </Step>
+          <Step transition="scale">
+            {({ accomplished, index }) => (
+              <div
+                className={`indexedStep ${
+                  accomplished ? "accomplished" : null
+                }`}
+              >
+                {index + 1}. Get Your Emoticon
+              </div>
+            )}
+          </Step>
+        </ProgressBar>
+      </div>
     </div>
   );
 };
 
 function Header() {
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
   return (
-    <header>
-      <div className="logo">
-        <img src={logoImg} alt="genego logo" className="logoimg" />
-        <a className="logottl">
-          Ge-Nemo
-        </a>
-      </div>
-      <ul className="nav-bar">
-        <li>
-          <a>about</a>
-        </li>
-      </ul>
-    </header>
+    <div>
+      <header>
+        <div className="logo">
+          <img src={logoImg} alt="genego logo" className="logoimg" />
+          <a className="logottl">Ge-Nemo</a>
+        </div>
+        <ul className="nav-bar">
+          <li>
+            <a href="#" onClick={toggleModal}>
+              about
+            </a>
+          </li>
+        </ul>
+      </header>
+      {modal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={toggleModal}>
+              &times;
+            </span>
+            <h4>Ge-Nemo 가이드</h4>
+            <p>Ge-Nemo의 간편 모드는 Plutchik의 '감정 휠'을 기반으로 하며</p>
+            <p>개인화 모드는 Paul Ekman의 6가지 기본 감정을 기반으로 합니다.</p>
+            <p>기본 감정보다 구체적인 감정이나</p>
+            <p>표현하고 싶은 특정 이미지가 있다면</p>
+            <p>개인화 모드를 이용하시면 됩니다.</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -69,20 +160,8 @@ function FormWizard() {
   const [remaining, setRemaining] = useState(32);
   const [mode, setmode] = useState(-1);
   const [descs, setDescs] = useState(Array(7).fill([]));
-  const [loading, setLoading] = useState(1);
-  /*
-  const imagePaths = [
-    "image0",
-    "image1",
-    "image2",
-    "image3",
-    "image4",
-    "image5",
-    "image6",
-  ];
-  */
-  //const fromflask = [];
-  const [fromflask, setFromFlask] = useState([]);
+
+  //const [fromflask, setFromFlask] = useState([]);
 
   useEffect(() => {
     setRemaining(
@@ -131,16 +210,31 @@ function FormWizard() {
         </div>
       </div>
     );
-  }
-  const ImageViewer = ({ imagePaths }) => {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  };
+  const ImageViewer = () => {
+    const [currentImageIndex, setCurrentImageIndex] = useState(1);
+    const [imageUrl, setImageUrl] = useState("");
+
+    useEffect(() => {
+      const getImageUrl = async () => {
+        try {
+          const response = await axios.get(`/img/${currentImageIndex}`);
+          //let blob = new Blob([new ArrayBuffer(response.data)], {type:"image/jpg"});
+          //console.log(response.data);
+          //setImageUrl(window.URL.createObjectURL(blob));
+          setImageUrl(`/img/${currentImageIndex}`);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getImageUrl();
+    }, [currentImageIndex]);
+
     const goToNextImage = () => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imagePaths.length);
+      setCurrentImageIndex((prevIndex) => ((prevIndex % 32) + 1));
     };
     const goToPrevImage = () => {
-      setCurrentImageIndex(
-        (prevIndex) => (prevIndex - 1 + imagePaths.length) % imagePaths.length
-      );
+      setCurrentImageIndex((prevIndex) => (((prevIndex + 30) % 32) + 1));
     };
     return (
       <div>
@@ -149,10 +243,7 @@ function FormWizard() {
         <div className="img-area">
           <div className="triangle-left" onClick={goToPrevImage}></div>
           <div className="img-box">
-            <img
-              src={imagePaths[currentImageIndex]}
-              alt={`${imagePaths[currentImageIndex]}`}
-            />
+            <img src={imageUrl} alt={`Image${currentImageIndex}`} />
           </div>
           <div className="triangle-right" onClick={goToNextImage}></div>
         </div>
@@ -160,7 +251,9 @@ function FormWizard() {
           <button className="smallBtn" onClick={restart}>
             다시 생성하기
           </button>
-          <button className="smallBtn">이미지 다운 받기</button>
+          <button className="smallBtn" onClick={downloadImages}>
+            이미지 다운 받기
+          </button>
         </div>
       </div>
     );
@@ -196,6 +289,20 @@ function FormWizard() {
 
   const handleChange = (e) => {
     setFormData(e.target.value);
+  };
+  const downloadImages = async () => {
+    try {
+      const response = await axios.get("/img/download", {
+        responseType: "blob",
+      });
+      const url = URL.createObjectURL(response.data);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "images.zip";
+      link.click();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -263,23 +370,7 @@ function FormWizard() {
   };
 
   //간편 모드(2단계에서 데이터 전송)
-  /*
-  const sendDataDefault = async () => {
-    try {
-      const info = JSON.stringify({
-        mode: 0,
-        formData: formData,
-      });
-      await axios.post(
-        "/",
-        { info },
-        { headers: { "Content-Type": `application/json` } }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  */
+
   const sendDataToServer0 = () => {
     const info = JSON.stringify({
       mode: 0,
@@ -295,25 +386,7 @@ function FormWizard() {
       });
   };
   //커스텀 모드(4단계에서 데이터 전송)
-  /*
-  const sendDataCustom = async () => {
-    try {
-      const info = JSON.stringify({
-        mode: 1,
-        formData: formData,
-        numbers: numbers,
-        descs: descs,
-      });
-      await axios.post(
-        "/",
-        { info },
-        { headers: { "Content-Type": `application/json` } }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  */
+
   const sendDataToServer1 = () => {
     const info = JSON.stringify({
       mode: 1,
@@ -331,19 +404,23 @@ function FormWizard() {
         console.error(error);
       });
   };
-  //이미지를 받아오는 함수
+  //이미지가 모두 생성될 때까지 기다림
   const getDataFromServer = async () => {
+    
+    /*
     try {
-      const response = await axios.get("/img");
-      console.log(response.data);
-      setFromFlask(response.data);
-    }
-    catch(err) {
+      let response
+      response = await axios.get("/img/1");
+      response = await axios.get("/img/2");
+      response = await axios.get("/img/3");
+    } catch (err) {
       console.log(err);
     }
-    setTimeout(()=>nextStep(), 5000);
-  }
-  
+    */
+    setTimeout(() => nextStep(), 5000);
+    //nextStep();
+  };
+
   return (
     <div>
       <main>
@@ -565,16 +642,18 @@ function FormWizard() {
             </form>
           </div>
         )}
+
         {step === 5 && (
           <div className="result-page">
             <MyProgressBar currentStep={step} />
             <LoadingPage />
           </div>
         )}
+
         {step === 6 && (
           <div className="result-page">
-          <MyProgressBar currentStep={step} />
-          <ImageViewer imagePaths={fromflask} />
+            <MyProgressBar currentStep={step} />
+            <ImageViewer />
           </div>
         )}
       </main>
@@ -582,4 +661,4 @@ function FormWizard() {
   );
 }
 
-export { Header, FormWizard, BigTitle, SmallTitle };
+export { Header, FormWizard };
