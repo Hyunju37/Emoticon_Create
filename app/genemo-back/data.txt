@@ -1,22 +1,17 @@
-<<<<<<< HEAD
-Concept: 안녕
+Concept: 도라에몽
 Status: 1
-Happiness: 32
-Sadness: 0
-Anger: 0
-Fear: 0
-Surprise: 0
+Happiness: 8
+Sadness: 10
+Anger: 5
+Fear: 4
+Surprise: 5
 Disgust: 0
 Neutral: 0
-Happiness Description: ['안', '녕', '하', '세', '요']
-Sadness Description: []
-Anger Description: []
-Fear Description: []
-Surprise Description: []
+Happiness Description: ['ㄱ', 'ㅅ', 'ㅅ', 'ㅅ', 'ㅅ', 'ㅅ', 'ㅅ', 'ㅅ']
+Sadness Description: ['ㅈㅊ', 'ㅊ', 'ㅊ', 'ㅊ', 'ㅊ', 'ㅊ', 'ㅊ', 'ㅑ', 'ㅑ', 'ㅑ']
+Anger Description: ['ㅔㅓ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ']
+Fear Description: ['ㄹ', 'ㅁㅈ', 'ㄱ', 'ㅎ']
+Surprise Description: ['ㄹ', 'ㄹㅅ', 'ㅅ', 'ㅇ', 'ㅈ']
 Disgust Description: []
 Neutral Description: []
-=======
-Concept: ������
-Status: 0
->>>>>>> 4a0f8b682b31788d09e68207b07988f209097808
 
