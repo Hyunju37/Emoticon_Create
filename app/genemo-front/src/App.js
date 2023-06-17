@@ -231,10 +231,10 @@ function FormWizard() {
     }, [currentImageIndex]);
 
     const goToNextImage = () => {
-      setCurrentImageIndex((prevIndex) => ((prevIndex + 1) % 32));
+      setCurrentImageIndex((prevIndex) => ((prevIndex % 32) + 1));
     };
     const goToPrevImage = () => {
-      setCurrentImageIndex((prevIndex) => ((prevIndex + 1) % 32) + 1);
+      setCurrentImageIndex((prevIndex) => (((prevIndex + 30) % 32) + 1));
     };
     return (
       <div>
