@@ -12,12 +12,6 @@ from PIL import Image
 import zipfile
 
 
-#from flask_wtf import FlaskForm
-#from wtforms import StringField, SelectField, IntegerField, TextAreaField
-#from wtforms.validators import InputRequired, NumberRange, ValidationError
-
-#from form import ConceptForm, PersonalizeStatus,EmotionCount,EmotionDescribe
-
 # 파일 저장 함수
 keras.mixed_precision.set_global_policy("mixed_float16")
 model = keras_cv.models.StableDiffusion(jit_compile=True)
@@ -130,38 +124,33 @@ def genemo():
 # 번역 결과 출력
 
 
-    if info['mode']==0:
-        
-        model.text_to_image(a,batch_size=1)
-        plot_images(model.text_to_image(a,batch_size=1))
+    if info['mode'] == 0:
+        generated_images = []
+        for _ in range(32):
+            generated_images.append(model.text_to_image(a, batch_size=1))
+        save_images(generated_images)
+    
 
     else:
-
+        generated_images = []
         for translation in translated_text:
-            model.text_to_image(a+" "+translation ,batch_size=1,)
-            plot_images(model.text_to_image(a+" "+translation ,batch_size=1,))
-            save_images(model.text_to_image(a+" "+translation ,batch_size=1,))
-
-
-        
-        
-
-
+            generated_images.extend(model.text_to_image(a + " " + translation, batch_size=1))
+        save_images(generated_images)
 
     
-    #translated_text = translate_concept(f"{info['formData']}\n"),\
-    #                  translate_describe("\n".join([a1[i] for i in range(info['numbers'][0])]))
-    #translated_text = translate_concept(f"{info['formData']}\n"),\
-    #                  translate_describe(a1[0]+a1[2])
     print("번역 결과: ", translated_text)
     return response
+
 
 @app.route('/img/<int:image_index>')
 def serve_image(image_index):
     image_path = f'generated_images/image_{image_index}.jpg'
     return send_file(image_path, mimetype='image/jpeg')
 
-@app.route('/img/download')
+for i in range(32):
+    app.add_url_rule(f'/img/{i}', view_func=serve_image, methods=['GET'])
+
+
 def download_images():
     images_directory = 'generated_images'
     zip_filename = 'images.zip'
