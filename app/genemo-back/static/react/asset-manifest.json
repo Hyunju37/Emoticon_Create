@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/react/css/main.a05ce097.css",
-    "main.js": "/static/react/js/main.72c8058e.js",
+    "main.css": "/static/react/css/main.af8fe2dd.css",
+    "main.js": "/static/react/js/main.11133ae5.js",
     "js/787.f8058f04.chunk.js": "/static/react/js/787.f8058f04.chunk.js",
     "media/genemo_logo.png": "/static/react/media/genemo_logo.072ba0cd485d99f799e8.png",
     "../../templates/index.html": "/static/react/../../templates/index.html",
-    "main.a05ce097.css.map": "/static/react/css/main.a05ce097.css.map",
-    "main.72c8058e.js.map": "/static/react/js/main.72c8058e.js.map",
+    "main.af8fe2dd.css.map": "/static/react/css/main.af8fe2dd.css.map",
+    "main.11133ae5.js.map": "/static/react/js/main.11133ae5.js.map",
     "787.f8058f04.chunk.js.map": "/static/react/js/787.f8058f04.chunk.js.map"
   },
   "entrypoints": [
-    "css/main.a05ce097.css",
-    "js/main.72c8058e.js"
+    "css/main.af8fe2dd.css",
+    "js/main.11133ae5.js"
   ]
 }

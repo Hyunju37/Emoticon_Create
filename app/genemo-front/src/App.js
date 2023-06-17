@@ -7,6 +7,8 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 
 import axios from "axios";
 
+import { saveAs } from "file-saver";
+
 const MyProgressBar = ({ currentStep }) => {
   return (
     <div className="bar-area">
@@ -30,7 +32,7 @@ const MyProgressBar = ({ currentStep }) => {
                   accomplished ? "accomplished" : null
                 }`}
               >
-                {index + 1} : Concept
+                {index + 1}. Concept
               </div>
             )}
           </Step>
@@ -41,7 +43,7 @@ const MyProgressBar = ({ currentStep }) => {
                   accomplished ? "accomplished" : null
                 }`}
               >
-                {index + 1} : Select Mode
+                {index + 1}. Select Mode
               </div>
             )}
           </Step>
@@ -52,7 +54,7 @@ const MyProgressBar = ({ currentStep }) => {
                   accomplished ? "accomplished" : null
                 }`}
               >
-                {index + 1} : Set Emotions
+                {index + 1}. Set Emotions
               </div>
             )}
           </Step>
@@ -63,7 +65,7 @@ const MyProgressBar = ({ currentStep }) => {
                   accomplished ? "accomplished" : null
                 }`}
               >
-                {index + 1} : Describe Emoticon
+                {index + 1}. Describe Emoticon
               </div>
             )}
           </Step>
@@ -74,7 +76,7 @@ const MyProgressBar = ({ currentStep }) => {
                   accomplished ? "accomplished" : null
                 }`}
               >
-                {index + 1} : Create Emoticon
+                {index + 1}. Create Emoticon
               </div>
             )}
           </Step>
@@ -85,7 +87,7 @@ const MyProgressBar = ({ currentStep }) => {
                   accomplished ? "accomplished" : null
                 }`}
               >
-                {index + 1} : Get Your Emoticon
+                {index + 1}. Get Your Emoticon
               </div>
             )}
           </Step>
@@ -159,19 +161,7 @@ function FormWizard() {
   const [mode, setmode] = useState(-1);
   const [descs, setDescs] = useState(Array(7).fill([]));
 
-  /*
-  const imagePaths = [
-    "image0",
-    "image1",
-    "image2",
-    "image3",
-    "image4",
-    "image5",
-    "image6",
-  ];
-  */
-  //const fromflask = [];
-  const [fromflask, setFromFlask] = useState([]);
+  //const [fromflask, setFromFlask] = useState([]);
 
   useEffect(() => {
     setRemaining(
@@ -221,15 +211,30 @@ function FormWizard() {
       </div>
     );
   };
-  const ImageViewer = ({ imagePaths }) => {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const ImageViewer = () => {
+    const [currentImageIndex, setCurrentImageIndex] = useState(1);
+    const [imageUrl, setImageUrl] = useState("");
+
+    useEffect(() => {
+      const getImageUrl = async () => {
+        try {
+          const response = await axios.get(`/img/${currentImageIndex}`);
+          //let blob = new Blob([new ArrayBuffer(response.data)], {type:"image/jpg"});
+          //console.log(response.data);
+          //setImageUrl(window.URL.createObjectURL(blob));
+          setImageUrl(`/img/${currentImageIndex}`);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getImageUrl();
+    }, [currentImageIndex]);
+
     const goToNextImage = () => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imagePaths.length);
+      setCurrentImageIndex((prevIndex) => ((prevIndex + 1) % 32));
     };
     const goToPrevImage = () => {
-      setCurrentImageIndex(
-        (prevIndex) => (prevIndex - 1 + imagePaths.length) % imagePaths.length
-      );
+      setCurrentImageIndex((prevIndex) => ((prevIndex + 1) % 32) + 1);
     };
     return (
       <div>
@@ -238,10 +243,7 @@ function FormWizard() {
         <div className="img-area">
           <div className="triangle-left" onClick={goToPrevImage}></div>
           <div className="img-box">
-            <img
-              src={imagePaths[currentImageIndex]}
-              alt={`${imagePaths[currentImageIndex]}`}
-            />
+            <img src={imageUrl} alt={`Image${currentImageIndex}`} />
           </div>
           <div className="triangle-right" onClick={goToNextImage}></div>
         </div>
@@ -249,7 +251,9 @@ function FormWizard() {
           <button className="smallBtn" onClick={restart}>
             다시 생성하기
           </button>
-          <button className="smallBtn">이미지 다운 받기</button>
+          <button className="smallBtn" onClick={downloadImages}>
+            이미지 다운 받기
+          </button>
         </div>
       </div>
     );
@@ -285,6 +289,20 @@ function FormWizard() {
 
   const handleChange = (e) => {
     setFormData(e.target.value);
+  };
+  const downloadImages = async () => {
+    try {
+      const response = await axios.get("/img/download", {
+        responseType: "blob",
+      });
+      const url = URL.createObjectURL(response.data);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "images.zip";
+      link.click();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -386,16 +404,21 @@ function FormWizard() {
         console.error(error);
       });
   };
-  //이미지를 받아오는 함수
+  //이미지가 모두 생성될 때까지 기다림
   const getDataFromServer = async () => {
+    
+    /*
     try {
-      const response = await axios.get("/img");
-      console.log(response.data);
-      setFromFlask(response.data);
+      let response
+      response = await axios.get("/img/1");
+      response = await axios.get("/img/2");
+      response = await axios.get("/img/3");
     } catch (err) {
       console.log(err);
     }
+    */
     setTimeout(() => nextStep(), 5000);
+    //nextStep();
   };
 
   return (
@@ -630,7 +653,7 @@ function FormWizard() {
         {step === 6 && (
           <div className="result-page">
             <MyProgressBar currentStep={step} />
-            <ImageViewer imagePaths={fromflask} />
+            <ImageViewer />
           </div>
         )}
       </main>
