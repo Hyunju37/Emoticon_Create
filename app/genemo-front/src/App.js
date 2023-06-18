@@ -247,6 +247,7 @@ function FormWizard() {
           </div>
           <div className="triangle-right" onClick={goToNextImage}></div>
         </div>
+        <p className="nth-img">{`${currentImageIndex}/32`}</p>
         <div className="btnArea2">
           <button className="smallBtn" onClick={restart}>
             다시 생성하기
