@@ -133,7 +133,7 @@ button {
 .btnArea2 {
   display: flex;
   justify-content: space-between;
-  margin-top: 50px;
+  margin-top: 40px;
   margin-bottom: 30px;
 }
 
@@ -443,4 +443,10 @@ div.modal-content p {
 .progressbar-area {
   position: fixed;
   z-index: 100;
+}
+
+.nth-img {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 0;
 }
