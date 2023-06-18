@@ -29,9 +29,9 @@ def plot_images(images):
         plt.axis("off")
     plt.show()
 # 주어진 텍스트로 이미지를 생성합니다.
-gen_image = model.text_to_image(
+#gen_image = model.text_to_image(
     "happiness people",
-    batch_size=1,
-)
-plot_images(gen_image)
-save_images(gen_image)
+#    batch_size=1,
+#)
+#plot_images(gen_image)
+#save_images(gen_image)
