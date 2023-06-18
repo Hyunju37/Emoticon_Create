@@ -1,5 +1,6 @@
-from flask import Flask, render_template, redirect, url_for, session, request,make_response,send_file
+from flask import Flask, render_template, redirect, url_for, session, request,make_response,send_file, g
 from chatgpt import translate_concept,translate_describe
+
 import os
 import urllib.parse
 import openai
@@ -25,10 +26,15 @@ def save_data_to_file(data):
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'genemo'
 
+waiting = 'notyet'
+    
 @app.route('/', methods=['GET'])
 def genemo_index():
    return render_template("index.html")
 
+#@app.before_request
+#def waiting_default():
+#    g.waiting = 1
 
 @app.route('/', methods=['POST'])
 def genemo():
@@ -139,18 +145,26 @@ def genemo():
 
     
     print("번역 결과: ", translated_text)
+    #g.waiting = 0
+    global waiting
+    waiting = 'done'
     return response
 
+@app.route('/yet', methods=['GET'])
+def done_yet():
+    #return g.waiting
+    global waiting
+    return waiting
 
 @app.route('/img/<int:image_index>')
 def serve_image(image_index):
     image_path = f'generated_images/image_{image_index}.jpg'
     return send_file(image_path, mimetype='image/jpeg')
 
-for i in range(32):
-    app.add_url_rule(f'/img/{i}', view_func=serve_image, methods=['GET'])
+#for i in range(32):
+#    app.add_url_rule(f'/img/{i}', view_func=serve_image, methods=['GET'])
 
-
+@app.route('/img/download')
 def download_images():
     images_directory = 'generated_images'
     zip_filename = 'images.zip'

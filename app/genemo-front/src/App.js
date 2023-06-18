@@ -331,13 +331,13 @@ function FormWizard() {
     if (step === 2) {
       setmode(1);
     }
-    if (step === 3) {
+    else if (step === 3) {
       if (remaining !== 0) {
         alert("이미지는 총 32장이어야 합니다.");
         return;
       }
     }
-    if (step === 4) {
+    else if (step === 4) {
       sendDataToServer1();
       //sendDataCustom();
     }
@@ -407,19 +407,13 @@ function FormWizard() {
   };
   //이미지가 모두 생성될 때까지 기다림
   const getDataFromServer = async () => {
-    
-    /*
-    try {
-      let response
-      response = await axios.get("/img/1");
-      response = await axios.get("/img/2");
-      response = await axios.get("/img/3");
-    } catch (err) {
-      console.log(err);
-    }
-    */
-    setTimeout(() => nextStep(), 5000);
-    //nextStep();
+    var response = setInterval(()=> {
+      var w = axios.get('/yet')
+      if(w.data === 'done') {
+        nextStep();
+        clearInterval(response)
+      }
+    }, 1000);
   };
 
   return (
