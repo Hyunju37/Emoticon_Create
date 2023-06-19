@@ -450,3 +450,8 @@ div.modal-content p {
   margin-top: 8px;
   margin-bottom: 0;
 }
+
+.result-img {
+  width: 360px;
+  height: 360px;
+}
