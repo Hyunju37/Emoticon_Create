@@ -243,7 +243,7 @@ function FormWizard() {
         <div className="img-area">
           <div className="triangle-left" onClick={goToPrevImage}></div>
           <div className="img-box">
-            <img src={imageUrl} alt={`Image${currentImageIndex}`} />
+            <img src={imageUrl} alt={`Image${currentImageIndex}`} className="result-img" />
           </div>
           <div className="triangle-right" onClick={goToNextImage}></div>
         </div>
@@ -406,12 +406,12 @@ function FormWizard() {
       });
   };
   //이미지가 모두 생성될 때까지 기다림
-  const getDataFromServer = async () => {
-    var response = setInterval(()=> {
-      var w = axios.get('/yet')
+  const getDataFromServer = () => {
+    const interval = setInterval(async () => {
+      const w = await axios.get('/yet');
       if(w.data === 'done') {
         nextStep();
-        clearInterval(response)
+        clearInterval(interval);
       }
     }, 1000);
   };

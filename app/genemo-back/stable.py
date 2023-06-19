@@ -15,7 +15,11 @@ def save_images(images):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
+<<<<<<< HEAD
     for i,image in enumerate(images,start=1):
+=======
+    for i,image in enumerate(images, start=1):
+>>>>>>> adc5ce43bc690d24cf67f43484af04af97ae14f1
         filename = f"image_{i}.jpg"
         file_path=os.path.join(save_dir,filename)
         pil_image = Image.fromarray(image)
