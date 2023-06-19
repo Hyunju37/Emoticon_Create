@@ -6,26 +6,28 @@ import matplotlib.pyplot as plt
 import cv2
 import os
 from PIL import Image
+import numpy  as np
 
 keras.mixed_precision.set_global_policy("mixed_float16")
 model = keras_cv.models.StableDiffusion(jit_compile=True)
 
 def save_images(images):
-    save_dir="generated_images"
+    save_dir = "generated_images"
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
-<<<<<<< HEAD
-    for i,image in enumerate(images,start=1):
-=======
-    for i,image in enumerate(images, start=1):
->>>>>>> adc5ce43bc690d24cf67f43484af04af97ae14f1
+    for i, image in enumerate(images, start=1):
         filename = f"image_{i}.jpg"
-        file_path=os.path.join(save_dir,filename)
+        file_path = os.path.join(save_dir, filename)
+        
+        if len(image.shape) == 4:
+            image = np.squeeze(image)
+        
         pil_image = Image.fromarray(image)
         pil_image.save(file_path, format='JPEG', quality=75)
 
 def plot_images(images):
+    
     plt.figure(figsize=(6.5, 6.5))
     for i in range(len(images)):
         ax = plt.subplot(1, len(images), i + 1)
