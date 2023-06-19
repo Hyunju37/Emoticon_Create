@@ -30,8 +30,13 @@ def plot_images(images):
     plt.show()
 # 주어진 텍스트로 이미지를 생성합니다.
 #gen_image = model.text_to_image(
+<<<<<<< HEAD
+    "happiness people",
+#    batch_size=1,
+=======
 #    "happiness people",
 #   batch_size=1,
+>>>>>>> 77f0c1b5a09a48c0d62255fc72646cf344a11d5f
 #)
 #plot_images(gen_image)
 #save_images(gen_image)
