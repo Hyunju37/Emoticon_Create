@@ -7,6 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/10lR01-X8BZYcHBMkcE9QhZPQICE8Slnr
 """
 
+# background transparent 하기 위한 초기 설정 
 import cv2
 from PIL import Image
 # create.png
@@ -16,10 +17,13 @@ img = cv2.imread('./instance-level_human_parsing/instance-level_human_parsing/Tr
 mask = cv2.imread('/content/drive/MyDrive/project/mask.png')  
 
 mask = cv2.resize(mask, (img.shape[1], img.shape[0]))
+
+# create.png와 mask.png에서 객체 추출하기, sementic segmantation
 output = cv2.bitwise_and(img, mask)
 
 cv2.imwrite("output.png", output)
 
+# 이미지 배경 투명화 작업
 def convertImage():
     img = Image.open('output.png')
     img = img.convert("RGBA")
@@ -35,6 +39,7 @@ def convertImage():
             newData.append(item)
  
     img.putdata(newData)
+    # 이미지 저장, 최종 이모티콘 이미지 출력물
     img.save("/content/drive/MyDrive/project/output.png", "PNG")
     print("Successful")
     
