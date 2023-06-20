@@ -161,8 +161,6 @@ function FormWizard() {
   const [mode, setmode] = useState(-1);
   const [descs, setDescs] = useState(Array(7).fill([]));
 
-  //const [fromflask, setFromFlask] = useState([]);
-
   useEffect(() => {
     setRemaining(
       32 -
@@ -219,9 +217,6 @@ function FormWizard() {
       const getImageUrl = async () => {
         try {
           const response = await axios.get(`/img/${currentImageIndex}`);
-          //let blob = new Blob([new ArrayBuffer(response.data)], {type:"image/jpg"});
-          //console.log(response.data);
-          //setImageUrl(window.URL.createObjectURL(blob));
           setImageUrl(`/img/${currentImageIndex}`);
         } catch (error) {
           console.error(error);
@@ -307,20 +302,12 @@ function FormWizard() {
   };
 
   useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
-  useEffect(() => {
     console.log({ step });
     if (step === 5) {
       getDataFromServer();
     }
   }, [step]);
-  /*
-  useEffect(() => {
-    console.log(descs);
-  }, [descs]);
-*/
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     // Perform form submission logic here
@@ -339,7 +326,6 @@ function FormWizard() {
     }
     else if (step === 4) {
       sendDataToServer1();
-      //sendDataCustom();
     }
     setStep(step + 1);
   };
@@ -347,9 +333,7 @@ function FormWizard() {
   const skipStep = () => {
     if (step === 2) {
       setmode(0);
-      //sendModeToServer(0);
       sendDataToServer0();
-      //sendDataDefault();
       setStep(step + 3);
     }
   };
@@ -424,7 +408,7 @@ function FormWizard() {
             <MyProgressBar currentStep={step} />
             <BigTitle ttl="Concept Writing" />
             <SmallTitle ttl="여러분이 만들고자 하는 이모티콘의 핵심 컨셉을 만들어 주세요" />
-            <SmallTitle ttl="tip) 캐릭터의 행동 묘사가 가장 적합합니다." />
+            <SmallTitle ttl="tip) 캐릭터의 외형 묘사가 가장 적합합니다." />
             <form onSubmit={nextStep} className="concept-form">
               <div className="concept-input">
                 <label className="concept-label">concept</label>
