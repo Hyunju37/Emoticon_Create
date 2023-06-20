@@ -6,7 +6,7 @@ import urllib.parse
 import openai
 import keras_cv
 import keras
-from stable import save_images,plot_images
+from stable import save_images, plot_images
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from PIL import Image
@@ -37,6 +37,7 @@ def genemo_index():
 def genemo():
     keras.mixed_precision.set_global_policy("mixed_float16")
     model = keras_cv.models.StableDiffusion(jit_compile=True)
+
     info = request.get_json()
     data=""
     
@@ -46,8 +47,9 @@ def genemo():
         data += f"{info['formData']}\n" 
         T=translate_concept(f"{info['formData']}\n")
         generated_images = []
-        for i in range(32):
+        for i in range(1):
             generated_images.append(model.text_to_image(T+" "+V[i],batch_size=1))
+        print(T)
         save_images(generated_images)        
     else:
         data+="\n"
@@ -97,34 +99,37 @@ def genemo():
         translated_text = []  
         for i in range(info['numbers'][0]):
             translation =translate_describe(a1[i])
-            translated_text.append(translation)
+            translated_text.append(translation+ " "+"Happiness")
         for i in range(info['numbers'][1]):
             translation = translate_describe(b1[i])
-            translated_text.append(translation)
+            translated_text.append(translation+" "+"Sadness")
         for i in range(info['numbers'][2]):
             translation = translate_describe(c1[i])
-            translated_text.append(translation)
+            translated_text.append(translation+" "+"Anger")
         for i in range(info['numbers'][3]):
             translation = translate_describe(d1[i])
-            translated_text.append(translation)
+            translated_text.append(translation+" "+"Fear")
         for i in range(info['numbers'][4]):
             translation = translate_describe(e1[i])
-            translated_text.append(translation)
+            translated_text.append(translation+" "+"Surprise")
         for i in range(info['numbers'][5]):
             translation = translate_describe(f1[i])
-            translated_text.append(translation)
+            translated_text.append(translation+" "+"Disgust")
         for i in range(info['numbers'][6]):
             translation = translate_describe(g1[i])
-            translated_text.append(translation)
+            translated_text.append(translation+" "+"Neutral")
         print("번역 결과: ", translated_text)
         generated_images = []
-        for translation in translated_text:
-            generated_images.extend(model.text_to_image(T + " " + translation, batch_size=1))
+        
+        generated_images.extend(model.text_to_image(T + " " + translated_text[0], batch_size=1))
+        generated_images.extend(model.text_to_image(T + " " + translated_text[1], batch_size=1))
+        generated_images.extend(model.text_to_image(T + " " + translated_text[2], batch_size=1))
         save_images(generated_images)
     save_data_to_file(data)
     response=make_response()
     response.set_cookie('input_data', urllib.parse.quote(data))
-    
+    global waiting
+    waiting='done'
     return response
 
 @app.route('/yet', methods=['GET'])
