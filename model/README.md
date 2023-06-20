@@ -7,5 +7,3 @@
 - output.png가 이모티콘 이미지의 최종 생성 결과물이다.
 --------
 - 참고 : fine_tuning까지 과정은 해결, sementic_segmentation, sementic_segmentation은 개발 중.
---------
-구성도
