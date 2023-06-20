@@ -19,7 +19,7 @@ def save_images(images):
     for i, image in enumerate(images, start=1):
         filename = f"image_{i}.jpg"
         file_path = os.path.join(save_dir, filename)
-        
+        #이미지 4차원에서 차원축소
         if len(image.shape) == 4:
             image = np.squeeze(image)
         
