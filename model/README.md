@@ -5,3 +5,4 @@
 - sementic_segmentation : 객체와 배경 이미지를 분리한다. create.png 파일을 받아 mask 이미지인 mask.png 생성. create.png 파일을 sementic_segmentation 한다.
 - background_transparent : create.png와 mask.png을 이용하여 mask가 완료된 이미지 생성. 이후, 그 이미지의 배경을 투명화하여, output.png 생성.
 - output.png가 이모티콘 이미지의 최종 생성 결과물이다.
+--------
