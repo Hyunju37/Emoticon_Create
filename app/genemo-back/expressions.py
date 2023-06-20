@@ -1,3 +1,5 @@
+#간편모드 32가지 컨셉에 더해 줄 "입력 예시"
+
 V=["showing teeth, smiling, and clenching fists",
 "smiling brightly with heart shape in the eyes",
 "getting on the knees with the head slightly bowed",

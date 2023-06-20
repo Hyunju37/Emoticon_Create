@@ -10,7 +10,7 @@ import numpy  as np
 
 keras.mixed_precision.set_global_policy("mixed_float16")
 model = keras_cv.models.StableDiffusion(jit_compile=True)
-
+#이미지 저장
 def save_images(images):
     save_dir = "generated_images"
     if not os.path.exists(save_dir):
@@ -25,7 +25,8 @@ def save_images(images):
         
         pil_image = Image.fromarray(image)
         pil_image.save(file_path, format='JPEG', quality=75)
-
+        
+#이미지 시각화
 def plot_images(images):
     
     plt.figure(figsize=(6.5, 6.5))
@@ -34,10 +35,5 @@ def plot_images(images):
         plt.imshow(images[i])
         plt.axis("off")
     plt.show()
-# 주어진 텍스트로 이미지를 생성합니다.
-#gen_image = model.text_to_image(
-    "happiness people",
-#    batch_size=1,
-#)
-#plot_images(gen_image)
-#save_images(gen_image)
+
+
