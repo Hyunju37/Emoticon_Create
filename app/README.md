@@ -20,7 +20,7 @@ react app을 제공
 ## 참여 팀원
 - Back-end: 최윤수 https://github.com/Choiyounsou
 - Front-end: 성현주 https://github.com/Hyunju37
-- Server: 김지우 https://github.com/kingjiwoo
+- Server 및 배포: 김지우 https://github.com/kingjiwoo
 
 ## 참고자료
 Flask-React 연동
